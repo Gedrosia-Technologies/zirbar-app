@@ -15,9 +15,7 @@ class CreateSellsTable extends Migration
     {
         Schema::create('sells', function (Blueprint $table) {
             $table->id();
-            $table->Integer('unitid');
-            $table->decimal('pcounter', 12, 2);
-            $table->decimal('counter', 12, 2);
+            $table->string('fuel');
             $table->decimal('rate', 12, 2);
             $table->decimal('liters', 12, 2);
             $table->date('date');

@@ -193,8 +193,7 @@ foreach($data as $row)
             ?>
           <td class="service">({{$count}}) - {{date('d-m-y',strtotime($row->date))}}</td>
           <td>
-            <?php $type =  \App\Models\Fish_Type::where('id',$row->type)->first(); ?>
-            {{$type->type}}
+            {{$row->type}}
           </td>
           <td class="total">{{number_format(($row->qty-(($row->qty/100)*$row->pt)))}}</td>
           <td class="total">{{number_format((($row->qty-(($row->qty/100)*$row->pt)) * $row->orate))}}</td>

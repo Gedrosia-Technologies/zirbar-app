@@ -39,6 +39,7 @@ class SellDetailController extends Controller
      */
     public function store(Request $request)
     {
+
         $table = new SellDetail();
 
         $table->rate = $request->rate;

@@ -58,7 +58,7 @@
     ?>
 
     @if($All_Closed)
-    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#SellModal">
+    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#PartyModal">
         <i class='fas fa-plus'></i> Add new Sell list
     </button>
     @endif
@@ -79,9 +79,8 @@
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Unit</th>
-                        <th>Pervious Counter</th>
-                        <th>Current Counter</th>
+                        <th>Fuel Type</th>
+                        <th>Party</th>
                         <th>Rate</th>
                         <th>Liters</th>
                         <th>Date</th>
@@ -92,9 +91,8 @@
                 <tfoot>
                     <tr>
                         <th>ID</th>
-                        <th>Unit</th>
-                        <th>Pervious Counter</th>
-                        <th>Current Counter</th>
+                        <th>Fuel Type</th>
+                        <th>Party</th>
                         <th>Rate</th>
                         <th>Liters</th>
                         <th>Date</th>
@@ -105,15 +103,14 @@
                 <tbody>
 
                     @foreach($sold as $data)
-
+                    <?php $sellDetails =  \App\Models\SellDetail::where('sellid',$data->id)->first(); ?>
                     <tr>
                         <td>{{$data->id}}</td>
+                        <td>{{$data->fuel}}</td>
                         <td>
-                            <?php $unit = \App\Models\Unit::find($data->unitid) ?>
-                            {{$unit->title}} - {{$unit->type}}
+                            <?php $party = \App\Models\Party::find($sellDetails->partyid);?>
+                            Party {{$party->name}}
                         </td>
-                        <td>{{$data->pcounter}}</td>
-                        <td>{{$data->counter}}</td>
                         <td>{{$data->rate}}</td>
                         <td>{{$data->liters}}</td>
                         <td>{{$data->date}}</td>
@@ -132,6 +129,32 @@
                             <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
                                 data-id="{{$data->id}}" data-action="{{route('delete_sell')}}"><i class="fa fa-trash"
                                     aria-hidden="true"></i> Delete</button>
+
+                                    <?php
+                                    $liters = 0;
+                                    $debitAmount = 0;
+                                    $CreditAmount = 0;
+                                    $liters += $sellDetails->liters;
+                                    if($sellDetails->type == 2)
+                                    {
+                                        $debitAmount += $sellDetails->amount;
+                                    }else{
+                                        $CreditAmount += $sellDetails->amount;
+                                    }
+                                        $closeAmount = $data->rate *($data->liters - $liters);
+                                        $closeAmount += $CreditAmount;
+                                    ?>
+                            <form action="{{route('close_sell')}}" method="post">
+                                @csrf
+                                <input type="hidden" name="id" value="{{$data->id}}">
+                                <input type="hidden" name="rate" value="{{$data->rate}}">
+                                <input type="hidden" name="liters" value="{{$data->liters - $liters}}">
+                                <input type="hidden" name="total" value="{{($data->liters - $liters) * $data->rate}}">
+                                <input type="hidden" name="closeAmount" value="{{$closeAmount}}">
+                                <button type="submit" class="btn btn-danger">
+                                    Close
+                                </button>
+                            </form>      
                             @endif
                             @endif
                         </td>
@@ -239,6 +262,82 @@
 </div>
 
 
+{{-- party sell modal --}}
+
+<div class="modal fade" id="PartyModal" tabindex="-1" role="dialog" aria-labelledby="PartyModalLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="PartyModalLabel">Party Sell</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" action="{{ route('add_sell') }}">
+                    @csrf
+                    <div class="form-group">
+                        <label for="title">Date:</label>
+                        <input id="title" class="form-control" type="date" name="date" value="{{date('Y-m-d')}}"
+                            required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rate">Party:</label>
+                        <select class="form-control" name="partyid" id="type" required>
+                            <option selected disabled>-----Please Select-----</option>
+
+                            <?php $parties = \App\Models\Party::all(); ?>
+                            @foreach($parties as $data)
+                            <option value="{{$data->id}}">{{$data->name}}</option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="rate">Fuel Type:</label>
+                        <select class="form-control" name="fuel" id="type" required>
+                            <option selected disabled>-----Please Select-----</option>
+                            <option value="Petrol">Petrol</option>
+                            <option value="Diesel">Diesel</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="rate">Rate Per Drum:</label>
+                        <input id="rate" class="form-control" type="number" name="rate" min="0.01" placeholder="Eg (27000.20)"
+                            step=".01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="qtydrum">Quantity-Drum</label>
+                        <input id="qtydrum" name="qtydrum" class="form-control" value="0" min="0" type="number"
+                            required>
+                    </div>
+                    <div class="form-group">
+                        <label for="qtyliter">Quantity-Liter</label>
+                        <input id="qtyliter" name="qtyliter" class="form-control" value="0" min="0" max="209"
+                            type="number" required>
+                    <small class="form-text text-primary text-center" id="pricecal">Total Amount: 0 Total Quantity:
+                                0</small>
+                    </div>
+
+                    <div class="form-group">
+                        <input id="liters" class="form-control" type="hidden" name="liters" min="0.01"
+                            max="" value="0" step=".01" required>
+                    </div>
+              
+
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary">Add</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+
 
 @endsection
 
@@ -310,6 +409,39 @@
 
     });
 
+</script>
+
+<script>
+    const drum = $('#qtydrum');
+    const liter = $('#qtyliter');
+    const price = $('#rate');
+    
+
+    price.on('input', calculate)
+    drum.on('input', calculate)
+    liter.on('input', calculate)
+
+    function calculate(){
+        let totalqty = 0;
+        let drumliter = 0;
+        let priceliter = 0;
+        let pkr_amount = 0;
+
+        if(drum.val()>0){
+            drumliter = parseInt(drum.val())*210;
+        }
+        totalqty = drumliter;
+        if(liter.val()>0){
+            totalqty += parseInt(liter.val())
+        }
+        if(price.val()>0){
+            priceliter = parseInt(price.val()/210);
+        }
+        $('#liters').val(totalqty);
+        let amount = numberWithCommas(Math.round(totalqty * priceliter));
+       // let amount2 = numberWithCommas(Math.round(totalqty * (priceliter/tomin_rate.val()) ));
+        $('#pricecal').html(`Total Amount : ${amount} ||  Total Liters: ${numberWithCommas(totalqty)}`)
+    }
 </script>
 
 @endsection

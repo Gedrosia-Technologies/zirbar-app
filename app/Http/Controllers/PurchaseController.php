@@ -57,12 +57,12 @@ class PurchaseController extends Controller
         $purchase->type = $request->type;
 
         $liters = $request->qtydrum * 210 + $request->qtyliter;
-        $rate = $request->price / 210;
+        $rate = ($request->price/$request->rate) / 210;
 
         $purchase->liters = $liters;
-        $purchase->drum_rate = $request->price;
+        $purchase->drum_rate = $request->price / $request->rate;
         $purchase->liter_rate = $rate;
-        $purchase->amount = $rate * $liters;
+        $purchase->amount = round($rate * $liters);
         $purchase->date = $request->date;
         $purchase->party = $request->party;
         $purchase->paid = $request->status;

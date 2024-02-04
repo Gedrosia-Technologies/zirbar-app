@@ -45,14 +45,13 @@ class SellController extends Controller
         $table->sellid = $request->id;
         $table->save();
 
-        $unit = Unit::find($update->unitid);
 
-        $rz = new Roznamcha();
-        $rz->title = "Closeing Amount added for Unit " . $unit->title . " | " . $unit->type;
-        $rz->amount = $request->closeAmount;
-        $rz->type = 1;
-        $rz->date = date('Y-m-d');
-        $rz->save();
+        // $rz = new Roznamcha();
+        // $rz->title = "Closeing Amount added for Unit " . $unit->title . " | " . $unit->type;
+        // $rz->amount = $request->closeAmount;
+        // $rz->type = 1;
+        // $rz->date = date('Y-m-d');
+        // $rz->save();
 
         return back()->with('info', 'Sell List Closed');
     }
@@ -75,38 +74,34 @@ class SellController extends Controller
      */
     public function store(Request $request)
     {
-        //update unit counter
-        $unit = Unit::find($request->unitid);
-        $unit_p_counter = $unit->counter;
-        $unit_rate = $unit->rate;
-        $unit_type = $unit->type;
-        $liters = abs($unit_p_counter - $request->counter);
-        $unit->counter = $request->counter;
-        $unit->save();
-        //////////////////////////////
 
-/////add sale list
-        $sell = new Sell();
-        $sell->unitid = $request->unitid;
-        $sell->pcounter = $unit_p_counter;
-        $sell->counter = $request->counter;
-        $sell->rate = $unit_rate;
-        $sell->liters = abs($unit_p_counter - $request->counter);
-        $sell->date = date('Y-m-d');
-        $sell->save();
-        $sell_id = $sell->id;
+        /// check Stock
+        $check = static::CheckStock($request->fuel , $request->liters);
+        if(!$check){
+            return back()->with('danger', 'Not Enough Stock Remaining Sell List Can not be added');
+        }
+        ///
 
-//////////////
+        /////add sale list
+                $sell = new Sell();
+                $sell->fuel = $request->fuel;
+                $sell->rate = $request->rate/210;
+                $sell->liters = $request->liters;
+                $sell->date = date('Y-m-d');
+                $sell->save();
+                $sell_id = $sell->id;
+
+        //////////////
 
         //updateing stock
         ///////////////////////////////
-        $stock = Stock::where('type', $unit_type)->first();
+        $stock = Stock::where('type', $request->fuel)->first();
 
         $stockDetail = new Stock_detail();
         $stockDetail->stockid = $stock->id;
         $stockDetail->sourceid = $sell_id;
         $stockDetail->status = 2;
-        $stockDetail->liters = $liters;
+        $stockDetail->liters = $request->liters;
         $stockDetail->date = date('Y-m-d');
         $stockDetail->save();
         // $stock->liters = $stock->liters - $liters;
@@ -116,25 +111,73 @@ class SellController extends Controller
 
         ///////////////////////////
         //updateing purchase
+
         ///////////////////////////////
         $rV = 0;
         $first = true;
         do {
             if ($first) {
-                $rV = static::checkUpdate($unit_type, $liters, $sell_id);
+                $rV = static::checkUpdate($request->fuel, $request->liters, $sell_id);
                 $first = false;
             } else {
-                $rV = static::checkUpdate($unit_type, $rV, $sell_id);
+                $rV = static::checkUpdate($request->fuel, $rV, $sell_id);
             }
             if ($rV != 'ok') {
-                static::SelectNewPurchase($unit_type);
+                static::SelectNewPurchase($request->fuel);
             }
         } while ($rV != 'ok');
 
         ///////////////////////////
 
+        //Sell details 
+
+        $table = new SellDetail();
+
+        $table->rate = $request->rate/210;
+        $table->liters = $request->liters;
+        $table->date = $request->date;
+        $table->amount = ($request->rate/210) * $request->liters;
+        $table->type = 2;
+        $table->sellid = $sell_id;
+        $partykanta = new Partykanta();
+        $partykanta->note = $request->fuel . " Sold Rate: " . $request->rate/210 . " Liters: " . $request->liters;
+        $partykanta->partyid = $request->partyid;
+        $partykanta->type = 2;
+        $partykanta->date = $request->date;
+        $partykanta->amount = $request->rate/210 * $request->liters;
+        $partykanta->save();
+        $sourceid = $partykanta->id;
+        $table->partyid = $request->partyid;
+        $table->sourceid = $sourceid;
+        $table->save();
+
+        //
+
         return back()->with('success', 'Added New Sell List');
 
+    }
+
+    public static function CheckStock($stocktype ,$liters2){
+
+        $stock = \App\Models\Stock::where('type',$stocktype)->first();
+        $stock_details = \App\Models\Stock_detail::where('stockid',$stock->id)->get();
+        $liters = 0.00;
+        $rliters = 0.00;
+            foreach ($stock_details as $row ) {
+                if($row->status == 1){
+
+                    $liters +=  $row->liters;
+                }else{
+                    $rliters += $row->liters;
+                }
+            }
+        $stock = $liters - $rliters;
+        if($stock >= $liters2){
+            return true;
+        }
+        else{
+            return false;
+        }
     }
 
     public static function checkUpdate($unit_type, $liters, $sell_id)
@@ -276,10 +319,10 @@ class SellController extends Controller
 
         $sellRow = Sell::find($Sell_id);
 
-        //Chnaging unit counter to Pevouse Unit Counter
-        $unit = Unit::find($sellRow->unitid);
-        $unit->counter = $sellRow->pcounter;
-        $unit->save();
+        // //Chnaging unit counter to Pevouse Unit Counter
+        // $unit = Unit::find($sellRow->unitid);
+        // $unit->counter = $sellRow->pcounter;
+        // $unit->save();
 
         $sellRow->delete();
 

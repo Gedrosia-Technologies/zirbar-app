@@ -17,8 +17,8 @@
     To date: &nbsp;<input type="date" name="to_date" value="{{date('Y-m-d')}}" required class="form-control">
     &nbsp;
 
-    <select name="fishid" class="form-control">
-        <option value="Please Select" selected disabled>---------Please Select Type---------</option>
+    <select name="fishid" required class="form-control">
+        <option value="" selected disabled>---------Please Select Type---------</option>
         <option value="Petrol">Petrol</option>
         <option value="Diesel">Diesel</option>
     </select>
@@ -162,7 +162,11 @@
                             type="number" required>
                     </div>
                     <div class="form-group">
-                        <label for="price">Price per drum</label>
+                        <label for="rate">Tomin Rate:</label>
+                        <input id="rate" class="form-control" type="number" name="rate"  required>
+                    </div>
+                    <div class="form-group">
+                        <label for="price">Price per drum(Tomin):</label>
                         <input id="price" class="form-control" type="number" name="price" required>
                         <small class="form-text text-primary text-center" id="pricecal">Total Amount: 0 Total Quantity:
                             0</small>
@@ -203,15 +207,18 @@
     const drum = $('#qtydrum');
     const liter = $('#qtyliter');
     const price = $('#price');
+    const tomin_rate = $('#rate');
 
     price.on('input', calculate)
     drum.on('input', calculate)
     liter.on('input', calculate)
+    tomin_rate.on('input', calculate);
 
     function calculate(){
         let totalqty = 0;
         let drumliter = 0;
         let priceliter = 0;
+        let pkr_amount = 0;
 
         if(drum.val()>0){
             drumliter = parseInt(drum.val())*210;
@@ -223,8 +230,9 @@
         if(price.val()>0){
             priceliter = parseInt(price.val())/210;
         } 
-        let amount = numberWithCommas(Math.floor(totalqty * priceliter));
-        $('#pricecal').html(`Total Amount: ${amount} Total Liters: ${totalqty}`)
+        let amount = numberWithCommas(Math.round(totalqty * priceliter));
+        let amount2 = numberWithCommas(Math.round(totalqty * (priceliter/tomin_rate.val()) ));
+        $('#pricecal').html(`Total Amount (tomin) : ${amount} || Total Amount (PKR) : ${amount2} || Total Liters: ${numberWithCommas(totalqty)}`)
     }
 
     let party = $('#party');
