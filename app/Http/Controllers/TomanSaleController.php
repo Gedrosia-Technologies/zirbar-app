@@ -44,10 +44,19 @@ class TomanSaleController extends Controller
         $rate = round($request->rate);
         $total = round($request->toman / $request->rate); 
 
+        //add in client toman balance
+        $toman_blance = new ClientTomanBalance;
+        $toman_blance->clientid = $request->clientid;
+        $toman_blance->type = 1;
+        $toman_blance->date = $request->date;
+        $toman_blance->amount = $tomanammount;
+        $toman_blance->save();
+        $toman_blance_id = $toman_blance->id;
 
         //add in toman purchase        
         $sale = new TomanSale();
         $sale->clientid = $request->clientid;
+        $sale->toman_balance_id = $toman_blance_id;
         $sale->toman = $tomanammount;
         $sale->rate = $rate;
         $sale->amount = $total; 
@@ -91,7 +100,7 @@ class TomanSaleController extends Controller
         
         $sale->save();
         $toman->save();
-        return Redirect::back()->with('msg', 'Sale Added');
+        return Redirect::back()->with('success', 'Sale Added');
     }
 
     /**

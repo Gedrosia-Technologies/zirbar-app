@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Party Kanta Print</title>
+    <title>Client Kanta Print</title>
     <style>
         .clearfix:after {
   content: "";
@@ -173,7 +173,7 @@ $cal_balance = $balance;
  <!-- <div id="logo">
         <img width="500px" height="" src="http://humsafar.gedrosia.tech/black.png">
       </div> -->
-<h1>Party Kanta Report ({{$partyname}})</h1>
+<h1>Client Kanta Report ({{$partyname}})</h1>
     <!-- <header class="clearfix">
      </header> 
        <div id="company" class="clearfix">

@@ -7,6 +7,8 @@
     </div>
     <div class="col-sm"></div>
 </div>
+
+
 <form method="post" action="{{ route('add_toman_client') }}">
     @csrf
     <div class="row ">
@@ -52,7 +54,7 @@
                     <tr>
                         <td>{{$data->id}}</td>
                         <td>{{$data->name}}</td>
-                        <td><a class="btn btn-success" href="/Partykanta/{{$data->id}}">Khanta</a></td>
+                        <td><a class="btn btn-success" href="/Clientkanta/{{$data->id}}">Khanta</a></td>
                     </tr>
                     @endforeach
                 </tbody>

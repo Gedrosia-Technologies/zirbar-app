@@ -165,8 +165,8 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/edit', [To
 Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/update', [TomanSupplierKantaController::class, 'update'])->name('supplierkanta-update');
 
 
-//Toman Supplier Kanta Routes
-Route::middleware(['auth:sanctum', 'verified'])->get('/Client/{id}', [TomanClientKantaController::class, 'show']);
+//Toman client Kanta Routes
+Route::middleware(['auth:sanctum', 'verified'])->get('/Clientkanta/{id}', [TomanClientKantaController::class, 'show']);
 Route::middleware(['auth:sanctum', 'verified'])->post('/Clientkanta/create', [TomanClientKantaController::class, 'store'])->name('add-clientkanta');
 Route::middleware(['auth:sanctum', 'verified'])->post('/Clientkanta/print', [TomanClientKantaController::class, 'displayReport2'])->name('clientkanta-print');
 Route::middleware(['auth:sanctum', 'verified'])->post('/Clientkanta/delete', [TomanClientKantaController::class, 'destroy'])->name('clientkanta-delete');
@@ -178,3 +178,6 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Purchase', [TomanP
 
 // Toman Sell Routes
 Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Sell', [TomanSaleController::class, 'store'])->name('toman_sell');
+
+// Client Toman Balance Route
+Route::middleware(['auth:sanctum', 'verified'])->post('/ClientTomanBalance/create', [TomanClientKantaController::class, 'update_tomain_balance'])->name('clientkanta-tomin-update');
