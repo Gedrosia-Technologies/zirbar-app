@@ -11,8 +11,8 @@ $petrol_stock = 0;
 $diesel_stock = 0;
 $petrol = \App\Models\Stock::where('type','Petrol')->first();
 $diesel = \App\Models\Stock::where('type','Diesel')->first();
-$diesel_rate = \App\Models\Unit::where('type','Diesel')->first();
-$petrol_rate = \App\Models\Unit::where('type','Petrol')->first();
+$diesel_rate = \App\Models\Purchase::where('type','Diesel')->where('status', '!=', 2)->avg('liter_rate');
+$petrol_rate = \App\Models\Purchase::where('type','Petrol')->where('status', '!=', 2)->avg('liter_rate');
 
 ?>
 @foreach($bb as $row)
@@ -107,7 +107,7 @@ $diesel_stock = $liters - $rliters;
         <div class="row no-gutters align-items-center">
             <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">
-                    <p>Petrol Rate: <span class="balance">{{$petrol_rate->rate}}</span></p>
+                    <p>Petrol Cost AVG: <span class="balance">{{number_format($petrol_rate,2)}}</span></p>
                 </div>
             </div>
 
@@ -119,7 +119,7 @@ $diesel_stock = $liters - $rliters;
         <div class="row no-gutters align-items-center">
             <div class="col mr-2">
                 <div class="text-xs font-weight-bold text-primary text-uppercase mb-1 ">
-                    <p>Diessel Rate: <span class="balance">{{$diesel_rate->rate}}</span></p>
+                    <p>Diessel Cost AVG: <span class="balance">{{number_format($diesel_rate,2)}}</span></p>
                 </div>
             </div>
 
