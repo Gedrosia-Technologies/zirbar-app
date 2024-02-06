@@ -141,6 +141,11 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/Partykanta/update', [Par
 
 //Toman Routes
 Route::middleware(['auth:sanctum', 'verified'])->get('/TomanAccounts', [TomanController::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/date', [TomanController::class, 'date'])->name('toman-accounts-get-date');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/print', [TomanController::class, 'displayReport2'])->name('toman-accounts-print');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/delete', [RoznamchaController::class, 'destroy'])->name('roznamcha-delete');
+Route::middleware(['auth:sanctum', 'verified'])->post('/roznamcha/edit', [RoznamchaController::class, 'edit'])->name('roznamcha-edit');
+Route::middleware(['auth:sanctum', 'verified'])->post('/roznamcha/update', [RoznamchaController::class, 'update'])->name('roznamcha-update');
 
 //Toman Supplier
 Route::middleware(['auth:sanctum', 'verified'])->get('/TomanSuppliers', [TomanSupplierController::class, 'index']);

@@ -50,12 +50,12 @@ $balancetom = 0;
 <div class="row">
 
     <div class="col-sm">
-        <h1><i class="fas fa-money-check-alt"></i> Toman Stock</h1>
+        <h1><i class="fas fa-money-check-alt"></i> Toman Accounts Details</h1>
     </div>
 </div>
 <div class="row">
     <div class="col-7">
-        <form class="form form-inline" target="_blank" action="{{route('roznamcha-print')}}" method="post">
+        <form class="form form-inline" target="_blank" action="{{route('toman-accounts-print')}}" method="post">
             @csrf
             From date: &nbsp;<input type="date" name="from_date" value="{{date('Y-m-d')}}" required
                 class="form-control">
@@ -66,7 +66,7 @@ $balancetom = 0;
         </form>
     </div>
     <div class="col-5">
-        <form class="form form-inline" action="{{route('roznamcha-get-date')}}" method="post">
+        <form class="form form-inline" action="{{route('toman-accounts-get-date')}}" method="post">
             @csrf
             Goto Date: &nbsp;<input type="date" name="date" value="{{date('Y-m-d')}}" required class="form-control">
             &nbsp;
