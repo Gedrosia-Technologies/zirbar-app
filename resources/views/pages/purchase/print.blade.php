@@ -154,12 +154,6 @@
 $total_amount = 0;
 $total_qty = 0;
 $count = 0;
-foreach($data as $row)
-{
-    $total_qty += ($row->qty-(($row->qty/100)*$row->pt));
-    $total_amount += ($row->qty-(($row->qty/100)*$row->pt))* $row->orate;
-
-}
 
 ?>
 
@@ -180,7 +174,8 @@ foreach($data as $row)
 
           <th class="service">Date</th>
           <th>Type</th>
-          <th>KGs</th>
+          <th>Qty</th>
+          <th>Rate</th>
           <th>Amount</th>
         </tr>
       </thead>
@@ -190,21 +185,25 @@ foreach($data as $row)
         <tr>
           <?php
             $count++;
+            $total_amount+= $row->amount;
+            $total_qty+= $row->liters;
             ?>
           <td class="service">({{$count}}) - {{date('d-m-y',strtotime($row->date))}}</td>
           <td>
             {{$row->type}}
           </td>
-          <td class="total">{{number_format(($row->qty-(($row->qty/100)*$row->pt)))}}</td>
-          <td class="total">{{number_format((($row->qty-(($row->qty/100)*$row->pt)) * $row->orate))}}</td>
+          <td class="total">{{$row->liters}}</td>
+          <td class="total">{{$row->liter_rate}}</td>
+          <td class="total">{{$row->amount}}</td>
         </tr>
         @endforeach
 
         <tr>
           <td class="service"><b> Grand Total</b></td>
           <td></td>
-          <td class="total"><b>{{ number_format($total_qty) }} KGs</b></td>
-          <td class="total"><b>{{ number_format($total_amount)}}</b></td>
+          <td class="total"><b>{{ number_format($total_qty) }} Liters</b></td>
+          <td></td>
+          <td class="total"><b>{{ number_format($total_amount)}} PKR</b></td>
         </tr>
       </tbody>
     </table>

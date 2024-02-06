@@ -190,7 +190,7 @@ class PurchaseController extends Controller
         $fromDate = $request->input('from_date');
         $toDate = $request->input('to_date');
 
-        $data = PurchaseDetails::where('type', $request->fishid)->whereBetween('date', [$fromDate, $toDate])->orderBy('date')->get();
+        $data = Purchase::where('type', $request->fishid)->whereBetween('date', [$fromDate, $toDate])->orderBy('date')->get();
 
         // $fishName = $fish->type;
         $date = Carbon::now()->format('d/m/Y');
