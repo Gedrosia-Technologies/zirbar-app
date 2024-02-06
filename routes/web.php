@@ -15,7 +15,17 @@ use App\Http\Controllers\SellController;
 use App\Http\Controllers\SellDetailController;
 use App\Http\Controllers\StockController;
 use App\Http\Controllers\StockDetailController;
+use App\Http\Controllers\TomanClientController;
+use App\Http\Controllers\TomanClientKantaController;
+use App\Http\Controllers\TomanController;
+use App\Http\Controllers\TomanPurchaseController;
+use App\Http\Controllers\TomanSaleController;
+use App\Http\Controllers\TomanSupplierController;
+use App\Http\Controllers\TomanSupplierKantaController;
 use App\Http\Controllers\UnitController;
+use App\Models\TomanClientKanta;
+use App\Models\TomanSupplier;
+use App\Models\TomanSupplierKanta;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -127,3 +137,39 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/Partykanta/print', [Part
 Route::middleware(['auth:sanctum', 'verified'])->post('/Partykanta/delete', [PartykantaController::class, 'destroy'])->name('partykanta-delete');
 Route::middleware(['auth:sanctum', 'verified'])->post('/Partykanta/edit', [PartykantaController::class, 'edit'])->name('partykanta-edit');
 Route::middleware(['auth:sanctum', 'verified'])->post('/Partykanta/update', [PartykantaController::class, 'update'])->name('partykanta-update');
+
+
+//Toman Routes
+Route::middleware(['auth:sanctum', 'verified'])->get('/TomanAccounts', [TomanController::class, 'index']);
+
+//Toman Supplier
+Route::middleware(['auth:sanctum', 'verified'])->get('/TomanSuppliers', [TomanSupplierController::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanSupplier/create', [TomanSupplierController::class, 'store'])->name('add_toman_supplier');
+
+//Toman Client
+Route::middleware(['auth:sanctum', 'verified'])->get('/TomanClients', [TomanClientController::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanClients/create', [TomanClientController::class, 'store'])->name('add_toman_client');
+
+
+//Toman Supplier Kanta Routes
+Route::middleware(['auth:sanctum', 'verified'])->get('/SupplierKanta/{id}', [TomanSupplierKantaController::class, 'show']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/create', [TomanSupplierKantaController::class, 'store'])->name('add-supplierkanta');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/print', [TomanSupplierKantaController::class, 'displayReport2'])->name('supplierkanta-print');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/delete', [TomanSupplierKantaController::class, 'destroy'])->name('supplierkanta-delete');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/edit', [TomanSupplierKantaController::class, 'edit'])->name('supplierkanta-edit');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/update', [TomanSupplierKantaController::class, 'update'])->name('supplierkanta-update');
+
+
+//Toman Supplier Kanta Routes
+Route::middleware(['auth:sanctum', 'verified'])->get('/Client/{id}', [TomanClientKantaController::class, 'show']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/Clientkanta/create', [TomanClientKantaController::class, 'store'])->name('add-clientkanta');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Clientkanta/print', [TomanClientKantaController::class, 'displayReport2'])->name('clientkanta-print');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Clientkanta/delete', [TomanClientKantaController::class, 'destroy'])->name('clientkanta-delete');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Clientkanta/edit', [TomanClientKantaController::class, 'edit'])->name('clientkanta-edit');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Clientkanta/update', [TomanClientKantaController::class, 'update'])->name('clientkanta-update');
+
+// Toman Purchase Routes
+Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Purchase', [TomanPurchaseController::class, 'store'])->name('toman_purchase');
+
+// Toman Sell Routes
+Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Sell', [TomanSaleController::class, 'store'])->name('toman_sell');

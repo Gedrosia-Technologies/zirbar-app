@@ -35,7 +35,7 @@
                 <div class="sidebar-brand-icon">
                     <i class="fas fa-gas-pump"></i>
                 </div>
-                <div class="sidebar-brand-text mx-3">MK-Filling Station<sup></sup></div>
+                <div class="sidebar-brand-text mx-3">ZirBar<sup></sup></div>
             </a>
 
 
@@ -73,6 +73,21 @@
                 <a class="nav-link" href="/Expenditure">
                     <i class="fas fa-money-bill"></i>
                     <span>Expenditures</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/TomanAccounts">
+                    <i class="fas fa-money-bill"></i>
+                    <span>Toman Accounts</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/TomanSuppliers">
+                    <i class="fas fa-money-bill"></i>
+                    <span>Toman Suppliers</span></a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/TomanClients">
+                    <i class="fas fa-money-bill"></i>
+                    <span>Toman Clients</span></a>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/Salary">
