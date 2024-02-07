@@ -435,11 +435,10 @@
             totalqty += parseInt(liter.val())
         }
         if(price.val()>0){
-            priceliter = parseInt(price.val()/210);
+            priceliter = price.val()/210;
         }
         $('#liters').val(totalqty);
-        let amount = numberWithCommas(Math.round(totalqty * priceliter));
-       // let amount2 = numberWithCommas(Math.round(totalqty * (priceliter/tomin_rate.val()) ));
+        let amount = Math.round(priceliter * totalqty);
         $('#pricecal').html(`Total Amount : ${amount} ||  Total Liters: ${numberWithCommas(totalqty)}`)
     }
 </script>
