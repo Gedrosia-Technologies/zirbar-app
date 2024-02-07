@@ -228,7 +228,7 @@
             totalqty += parseInt(liter.val())
         }
         if(price.val()>0){
-            priceliter = parseInt(price.val())/210;
+            priceliter = price.val()/210;
         } 
         let amount = numberWithCommas(Math.round(totalqty * priceliter));
         let amount2 = numberWithCommas(Math.round(totalqty * (priceliter/tomin_rate.val()) ));
