@@ -9,7 +9,7 @@
 </div>
 <hr>
 <h3>Add New Account</h3>
-<form method="post" action="{{ route('add_account') }}">
+<form method="post" class="submit" action="{{ route('add_account') }}">
     @csrf
     <div class="row ">
         <div class="col">
@@ -28,7 +28,7 @@
 
 
         <div class="col">
-            <input type="submit" value="Add Account" class="btn btn-info">
+            <input type="submit" value="Add Account" class="btn btn-info submit">
         </div>
     </div>
 </form>
@@ -109,7 +109,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{route('update_account')}}" onsubmit="check('Update')">
+                <form method="post" class="submit" action="{{route('update_account')}}" onsubmit="check('Update')">
                     @csrf
 
                     <div class="form-group">
@@ -132,7 +132,7 @@
                     <input type="hidden" class="id" name="id">
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-info">Update</button>
+                <button type="submit" class="btn btn-info submit">Update</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </form>
             </div>

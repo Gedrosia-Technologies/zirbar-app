@@ -20,7 +20,7 @@
         <h6>Tomain Balance : <span class="balance">{{number_format($toman_balance,2)}}</span> </h6>
     </div>
     <div class="col-6">
-        <form class="form form-inline"  action="{{route('clientkanta-tomin-update')}}" method="post">
+        <form class="form form-inline submit"  action="{{route('clientkanta-tomin-update')}}" method="post">
             @csrf
             Toman Amount: <input type="number" name="amount"  required class="form-control">
             &nbsp;
@@ -28,7 +28,7 @@
             &nbsp;
             <input type="hidden" name="partyid" value="{{$party->id}}">
             &nbsp;
-            <button class="btn btn-success" type="submit">Submit</button>
+            <button class="btn btn-success submit" type="submit">Submit</button>
 
         </form>
     </div>
@@ -131,11 +131,11 @@
                         <td>{{number_format($data->amount,2)}}</td>
                         @if(auth()->user()->isadmin)
                         <td>                   
-                            <form action="{{route('clientkanta-delete')}}" onsubmit="check('Delete')" class='form-inline'
+                            <form action="{{route('clientkanta-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
                                 method="post">
                                 @csrf
                                 <input type="hidden" value="{{$data->id}}" name="id">
-                                <button class="btn btn-danger">X</button>
+                                <button class="btn btn-danger submit">X</button>
                             </form>
                         </td>
                         @endif
@@ -161,7 +161,7 @@
 
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add-clientkanta') }}">
+                <form method="post" class="submit" action="{{ route('add-clientkanta') }}">
                     @csrf
 
                     <div class="form-group">
@@ -189,7 +189,7 @@
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">submit </button>
+                <button type="submit" class="btn btn-success submit">submit </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                 </form>
@@ -213,7 +213,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add-clientkanta') }}">
+                <form method="post" class="submit" action="{{ route('add-clientkanta') }}">
                     @csrf
 
                     <div class="form-group">
@@ -248,7 +248,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">submit </button>
+                <button type="submit" class="btn btn-success submit">submit </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                 </form>

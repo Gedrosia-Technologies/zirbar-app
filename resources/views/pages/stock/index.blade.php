@@ -99,7 +99,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{route('update_unit')}}" onsubmit="check('Update')">
+                <form method="post" class="submit" action="{{route('update_unit')}}" onsubmit="check('Update')">
                     @csrf
 
                     <div class="form-group">
@@ -121,7 +121,7 @@
                     <input type="hidden" class="id" name="id">
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-warning">Update</button>
+                <button type="submit" class="btn btn-warning submit">Update</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </form>
             </div>

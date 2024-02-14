@@ -160,7 +160,7 @@
 
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add-account-details') }}">
+                <form method="post" class="submit" action="{{ route('add-account-details') }}">
                     @csrf
 
                     <input type="hidden" name="account" value="{{$account->id}}">
@@ -189,7 +189,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">submit </button>
+                <button type="submit" class="btn btn-success submit">submit </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                 </form>
@@ -213,7 +213,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add-account-details') }}">
+                <form method="post" class="submit" action="{{ route('add-account-details') }}">
                     @csrf
 
                     <input type="hidden" name="account" value="{{$account->id}}">
@@ -241,7 +241,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">submit </button>
+                <button type="submit" class="btn btn-success submit">submit </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                 </form>
@@ -265,7 +265,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{route('accountdetails-update')}}" onsubmit="check('Update')">
+                <form method="post" class="submit" action="{{route('accountdetails-update')}}" onsubmit="check('Update')">
                     @csrf
                     <div class="form-group">
                         <label for="">Date:</label>
@@ -285,7 +285,7 @@
                     <input type="hidden" class="id" name="id">
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-info">Update</button>
+                <button type="submit" class="btn btn-info submit">Update</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </form>
             </div>

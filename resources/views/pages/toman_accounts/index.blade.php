@@ -200,7 +200,7 @@ $balancetom = 0;
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" id="sellform" action="{{ route('toman_sell') }}">
+                <form method="post" class="submit" id="sellform" action="{{ route('toman_sell') }}">
                     @csrf
 
                     <div class="form-group">
@@ -250,7 +250,7 @@ $balancetom = 0;
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button id="btnsub" type="submit" class="btn btn-primary">Add Sell</button>
+                <button id="btnsub" type="submit" class="btn btn-primary submit">Add Sell</button>
                 </form>
             </div>
         </div>
@@ -274,7 +274,7 @@ $balancetom = 0;
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" id="purchaseform" action="{{ route('toman_purchase') }}">
+                <form method="post" class="submit" id="purchaseform" action="{{ route('toman_purchase') }}">
                     @csrf
 
                     <div class="form-group">
@@ -325,7 +325,7 @@ $balancetom = 0;
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button id="btnsub" type="submit" class="btn btn-primary">Add Sell</button>
+                <button id="btnsub" type="submit" class="btn btn-primary submit">Add Sell</button>
                 </form>
             </div>
         </div>

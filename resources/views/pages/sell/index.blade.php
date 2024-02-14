@@ -144,14 +144,14 @@
                                         $closeAmount = $data->rate *($data->liters - $liters);
                                         $closeAmount += $CreditAmount;
                                     ?>
-                            <form action="{{route('close_sell')}}" method="post">
+                            <form action="{{route('close_sell')}}" class="submit" method="post">
                                 @csrf
                                 <input type="hidden" name="id" value="{{$data->id}}">
                                 <input type="hidden" name="rate" value="{{$data->rate}}">
                                 <input type="hidden" name="liters" value="{{$data->liters - $liters}}">
                                 <input type="hidden" name="total" value="{{($data->liters - $liters) * $data->rate}}">
                                 <input type="hidden" name="closeAmount" value="{{$closeAmount}}">
-                                <button type="submit" class="btn btn-danger">
+                                <button type="submit" class="btn btn-danger submit">
                                     Close
                                 </button>
                             </form>      
@@ -180,7 +180,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{route('update_unit')}}" onsubmit="check('Update')">
+                <form method="post" class="submit" action="{{route('update_unit')}}" onsubmit="check('Update')">
                     @csrf
 
                     <div class="form-group">
@@ -202,7 +202,7 @@
                     <input type="hidden" class="id" name="id">
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-warning">Update</button>
+                <button type="submit" class="btn btn-warning submit">Update</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </form>
             </div>
@@ -221,7 +221,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add_sell') }}">
+                <form method="post" class="submit" action="{{ route('add_sell') }}">
                     @csrf
 
                     <div class="form-group">
@@ -254,7 +254,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button id="btnsub" type="submit" class="btn btn-primary">Add Sell List</button>
+                <button id="btnsub" type="submit" class="btn btn-primary submit">Add Sell List</button>
                 </form>
             </div>
         </div>
@@ -275,7 +275,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add_sell') }}">
+                <form class="submit" method="post" action="{{ route('add_sell') }}">
                     @csrf
                     <div class="form-group">
                         <label for="title">Date:</label>
@@ -330,7 +330,7 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                <button type="submit" class="btn btn-primary">Add</button>
+                <button type="submit" class="btn btn-primary submit">Add</button>
                 </form>
             </div>
         </div>

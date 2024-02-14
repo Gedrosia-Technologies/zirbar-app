@@ -137,7 +137,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add_purchase') }}">
+                <form method="post" class="submit" action="{{ route('add_purchase') }}">
                     @csrf
                     <div class="form-group">
                         <label for="date">Date</label>
@@ -190,7 +190,7 @@
                     </div>
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-primary">Add Purchase</button>
+                <button type="submit" class="btn btn-primary submit">Add Purchase</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 </form>
             </div>

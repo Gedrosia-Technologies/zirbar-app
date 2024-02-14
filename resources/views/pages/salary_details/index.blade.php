@@ -65,11 +65,11 @@
             <div class="col-md-10"><b>{{date("d-m-Y", strtotime($data->date))}}</b></div>
             <div class="col-1">
                 @if(auth()->user()->isadmin)
-                <form action="{{route('salarydetails-delete')}}" onsubmit="check('Delete')" class='form-inline'
+                <form action="{{route('salarydetails-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
                     method="post">
                     @csrf
                     <input type="hidden" value="{{$data->id}}" name="id">
-                    <button class="btn btn-danger">X</button>
+                    <button class="btn btn-danger submit">X</button>
                 </form>
             </div>
             <div class="col-1">
@@ -114,11 +114,11 @@
             <div class="col-md-10"><b>{{date("d-m-Y", strtotime($data->date))}}</b></div>
             <div class="col-1">
                 @if(auth()->user()->isadmin)
-                <form action="{{route('salarydetails-delete')}}" onsubmit="check('Delete')" class='form-inline'
+                <form action="{{route('salarydetails-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
                     method="post">
                     @csrf
                     <input type="hidden" value="{{$data->id}}" name="id">
-                    <button class="btn btn-danger">X</button>
+                    <button class="btn btn-danger submit">X</button>
                 </form>
             </div>
             <div class="col-1">
@@ -167,7 +167,7 @@
 
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add-salarydetails') }}">
+                <form method="post" class="submit" action="{{ route('add-salarydetails') }}">
                     @csrf
 
                     <div class="form-group">
@@ -204,7 +204,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">submit </button>
+                <button type="submit" class="btn btn-success submit">submit </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                 </form>
@@ -228,7 +228,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add-salarydetails') }}">
+                <form method="post" class="submit" action="{{ route('add-salarydetails') }}">
                     @csrf
 
                     <div class="form-group">
@@ -263,7 +263,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">submit </button>
+                <button type="submit" class="btn btn-success submit">submit </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                 </form>
@@ -285,7 +285,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('salarydetails-update') }}">
+                <form method="post" class="submit" action="{{ route('salarydetails-update') }}">
                     @csrf
 
                     <div class="form-group">
@@ -314,7 +314,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">submit </button>
+                <button type="submit" class="btn btn-success submit">submit </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
                 </form>
             </div>

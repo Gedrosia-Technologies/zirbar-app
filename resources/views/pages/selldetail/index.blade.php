@@ -31,7 +31,7 @@
 
     @if($sellList->isclosed == false)
 
-    <form action="{{route('close_sell')}}" method="post">
+    <form class="submit" action="{{route('close_sell')}}" method="post">
         @csrf
 
         <input type="hidden" name="id" value="{{$sellList->id}}">
@@ -39,7 +39,7 @@
         <input type="hidden" name="liters" value="{{$sellList->liters - $liters}}">
         <input type="hidden" name="total" value="{{($sellList->liters - $liters)*$sellList->rate}}">
         <input type="hidden" name="closeAmount" value="{{$closeAmount}}">
-        <button type="submit" class="btn btn-danger">
+        <button type="submit" class="btn btn-danger submit">
             Close
         </button>
     </form>

@@ -55,21 +55,21 @@
             <div class="col-md-10"><b>{{date("d-m-Y", strtotime($data->date))}}</b></div>
             <div class="col-1">
                 @if(auth()->user()->name == 'admin')
-                <form action="{{route('partykanta-delete')}}" onsubmit="check('Delete')" class='form-inline'
+                <form action="{{route('partykanta-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
                     method="post">
                     @csrf
                     <input type="hidden" value="{{$data->id}}" name="id">
-                    <button class="btn btn-danger">X</button>
+                    <button class="btn btn-danger submit">X</button>
                 </form>
             </div>
             <div class="col-1">
-                <form action="{{route('partykanta-edit')}}" onsubmit="check('Update')" class='form-inline'
+                <form action="{{route('partykanta-edit')}}" onsubmit="check('Update')" class='form-inline submit'
                     method="post">
                     @csrf
                     <input type="hidden" value="{{$data->id}}" name="id">
                     <input type="hidden" value="{{$party->id}}" name="partyid">
                     <input type="hidden" value="3" name="type">
-                    <button class="btn btn-info"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                    <button class="btn btn-info submit"><i class="fa fa-edit" aria-hidden="true"></i></button>
                 </form>
 
                 @endif
@@ -108,21 +108,21 @@
             <div class="col-md-10"><b>{{date("d-m-Y", strtotime($data->date))}}</b></div>
             <div class="col-1">
                 @if(auth()->user()->name == 'admin')
-                <form action="{{route('partykanta-delete')}}" onsubmit="check('Delete')" class='form-inline'
+                <form action="{{route('partykanta-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
                     method="post">
                     @csrf
                     <input type="hidden" value="{{$data->id}}" name="id">
-                    <button class="btn btn-danger">X</button>
+                    <button class="btn btn-danger submit">X</button>
                 </form>
             </div>
             <div class="col-1">
-                <form action="{{route('partykanta-edit')}}" onsubmit="check('Update')" class='form-inline'
+                <form action="{{route('partykanta-edit')}}" onsubmit="check('Update')" class='form-inline submit'
                     method="post">
                     @csrf
                     <input type="hidden" value="{{$data->id}}" name="id">
                     <input type="hidden" value="{{$party->id}}" name="partyid">
                     <input type="hidden" value="1" name="type">
-                    <button class="btn btn-info"><i class="fa fa-edit" aria-hidden="true"></i></button>
+                    <button class="btn btn-info submit"><i class="fa fa-edit" aria-hidden="true"></i></button>
                 </form>
 
                 @endif
@@ -164,7 +164,7 @@
 
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add-partykanta') }}">
+                <form method="post" class="submit" action="{{ route('add-partykanta') }}">
                     @csrf
 
                     <div class="form-group">
@@ -209,7 +209,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">submit </button>
+                <button type="submit" class="btn btn-success submit">submit </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                 </form>
@@ -233,7 +233,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add-partykanta') }}">
+                <form method="post" class="submit" action="{{ route('add-partykanta') }}">
                     @csrf
 
                     <div class="form-group">
@@ -268,7 +268,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">submit </button>
+                <button type="submit" class="btn btn-success submit">submit </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                 </form>

@@ -51,3 +51,16 @@ $('#deleteModal').on('show.bs.modal', function (event) {
 function numberWithCommas(x) {
     return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
 }
+
+// document.querySelectorAll('.submit').addEventListener('click',function(e){
+//     setTimeout(() => {
+//         document.querySelectorAll('.submit').forEach(elem => {
+//          elem.disabled = true;
+//     });
+//     }, 100);
+// })
+(function(){
+$('.submit').on('submit', function(){
+    $('.submit').attr('disabled','true');
+})
+})();

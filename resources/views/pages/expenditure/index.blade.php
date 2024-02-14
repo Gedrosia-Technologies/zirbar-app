@@ -28,7 +28,7 @@
 </div>
 <hr>
 <div class="col-md-12">
-    <form method="post" action="{{ route('add_expenditure') }}">
+    <form method="post" class="submit" action="{{ route('add_expenditure') }}">
         @csrf
         <div class="row ">
             <div class="col">
@@ -43,7 +43,7 @@
                 <label for="detail">Details</label>
                 <input type="text" name="detail" required class="form-control" placeholder="Detail / Note">
             </div>
-            <button class="btn btn-info" type="submit">Add Item</button>
+            <button class="btn btn-info submit" type="submit">Add Item</button>
         </div>
     </form>
 
@@ -120,7 +120,7 @@
                         </button>
                     </div>
                     <div class="modal-body">
-                        <form method="post" action="{{route('expenditure-update')}}" onsubmit="check('Update')">
+                        <form method="post" class="submit" action="{{route('expenditure-update')}}" onsubmit="check('Update')">
                             @csrf
 
 
@@ -142,7 +142,7 @@
                             <input type="hidden" id="rozid" name="roz_id">
                     </div>
                     <div class="modal-footer">
-                        <button type="submit" class="btn btn-warning">Update</button>
+                        <button type="submit" class="btn btn-warning submit">Update</button>
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                         </form>
                     </div>

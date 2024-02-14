@@ -7,7 +7,7 @@
     </div>
     <div class="col-sm"></div>
 </div>
-<form method="post" action="{{ route('add_party') }}">
+<form method="post" class="submit" action="{{ route('add_party') }}">
     @csrf
     <div class="row ">
         <div class="col">
@@ -17,7 +17,7 @@
         <input type="hidden" name="type" value="partykanta" required class="form-control">
         
         <div class="col">
-            <input type="submit" value="Add Party" class="btn btn-info">
+            <input type="submit" value="Add Party" class="btn btn-info submit">
         </div>
     </div>
 </form>

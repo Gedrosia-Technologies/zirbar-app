@@ -111,11 +111,11 @@
                         <td>{{number_format($data->amount,2)}}</td>
                         @if(auth()->user()->isadmin)
                         <td>                   
-                            <form action="{{route('partykanta-delete')}}" onsubmit="check('Delete')" class='form-inline'
+                            <form action="{{route('partykanta-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
                                 method="post">
                                 @csrf
                                 <input type="hidden" value="{{$data->id}}" name="id">
-                                <button class="btn btn-danger">X</button>
+                                <button class="btn btn-danger submit">X</button>
                             </form>
                         </td>
                         @endif
@@ -141,7 +141,7 @@
 
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add-partykanta') }}">
+                <form method="post" class="submit" action="{{ route('add-partykanta') }}">
                     @csrf
 
                     <div class="form-group">
@@ -186,7 +186,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">submit </button>
+                <button type="submit" class="btn btn-success submit">submit </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                 </form>
@@ -210,7 +210,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" action="{{ route('add-partykanta') }}">
+                <form method="post" class="submit" action="{{ route('add-partykanta') }}">
                     @csrf
 
                     <div class="form-group">
@@ -245,7 +245,7 @@
 
             </div>
             <div class="modal-footer">
-                <button type="submit" class="btn btn-success">submit </button>
+                <button type="submit" class="btn btn-success submit">submit </button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
 
                 </form>
