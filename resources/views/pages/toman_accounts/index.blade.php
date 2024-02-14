@@ -75,13 +75,13 @@ $balancetom = 0;
     </div>
 </div>
 <hr>
-<h3 class="text-center text-primary">PKR</h3>
+<h3 class="text-center text-primary">Accounts PKR</h3>
 <div class="row">
     <div class="col">
-        <h5>incoming : <span class="balance">{{number_format($total_incoming,2)}}</span></h5>
+        <h5>Purchase : <span class="balance">{{number_format($total_incoming,2)}}</span></h5>
     </div>
     <div class="col">
-        <h5>Outgoing : <span class="balance">{{number_format($total_outgoing,2)}}</span></h5>
+        <h5>Sale : <span class="balance">{{number_format($total_outgoing,2)}}</span></h5>
     </div>
     <div class="col">
         <h5>Balance : <span class="balance">{{number_format($balance,2)}}</span></h5>
@@ -90,7 +90,7 @@ $balancetom = 0;
 <hr>
 
 <hr>
-<h3 class="text-center text-primary">Toman</h3>
+<h3 class="text-center text-primary">Toman Stock</h3>
 <div class="row">
     <div class="col">
         <h5>incoming : <span class="balance">{{number_format($total_incomingtom,2)}}</span></h5>

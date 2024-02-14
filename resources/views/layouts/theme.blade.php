@@ -74,7 +74,7 @@
                     <i class="fas fa-money-bill"></i>
                     <span>Expenditures</span></a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="/TomanAccounts">
                     <i class="fas fa-money-bill"></i>
                     <span>Toman Accounts</span></a>
@@ -88,6 +88,28 @@
                 <a class="nav-link" href="/TomanClients">
                     <i class="fas fa-money-bill"></i>
                     <span>Toman Clients</span></a>
+            </li> --}}
+            <li class="nav-item">
+                <a class="nav-link collapsed" href="/TomanAccounts" data-toggle="collapse" data-target="#collapseUtilities2"
+                    aria-expanded="false" aria-controls="collapseUtilities2">
+                    <i class="fas fa-money-check-alt"></i>
+                    <span>Toman</span>
+                </a>
+                <div id="collapseUtilities2" class="collapse" aria-labelledby="headingUtilities"
+                    data-parent="#accordionSidebar" style="">
+                    <div class="bg-white py-2 collapse-inner rounded">
+                        <a class="collapse-item" href="/TomanAccounts">
+                            <i class="fas fa-money-check-alt"></i>
+                            <span>Toman Accounts</span></a>
+                        <a class="collapse-item" href="/TomanSuppliers">
+                            <i class="fas fa-money-check-alt"></i>
+                            <span>Toman Suppliers</span></a>
+
+                        <a class="collapse-item" href="/TomanClients">
+                            <i class="fas fa-money-check-alt"></i>
+                            <span>Toman Clients</span></a>
+                    </div>
+                </div>
             </li>
             <li class="nav-item">
                 <a class="nav-link" href="/Salary">
@@ -95,12 +117,12 @@
                     <span>Salary</span>
                 </a>
             </li>
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a class="nav-link" href="/Units">
                     <i class="fas fa-gas-pump"></i>
                     <span>Units</span>
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a class="nav-link" href="/Investment">
                     <i class="fas fas fa-landmark"></i>

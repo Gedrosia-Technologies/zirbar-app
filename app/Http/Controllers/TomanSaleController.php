@@ -8,6 +8,8 @@ use App\Models\TomanClientKanta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use App\Models\Toman;
+use App\Models\ClientTomanBalance;
+
 
 class TomanSaleController extends Controller
 {

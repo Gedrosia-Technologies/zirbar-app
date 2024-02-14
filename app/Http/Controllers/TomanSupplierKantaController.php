@@ -6,6 +6,7 @@ use App\Models\TomanSupplierKanta;
 use App\Http\Controllers\Controller;
 use App\Models\TomanSupplier;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
 
 class TomanSupplierKantaController extends Controller
 {
@@ -38,7 +39,29 @@ class TomanSupplierKantaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        if ($request->type == 1) {
+            $partykanta = new TomanSupplierKanta();
+            $partykanta->note = $request->input('title');
+            $partykanta->supplierid = $request->partyid;
+            $partykanta->type = $request->type;
+            $partykanta->date = $request->date;
+            $partykanta->amount = $request->amount;
+            $partykanta->save();
+
+        }
+        //debit
+        if ($request->type == 2) {
+            $partykanta = new TomanSupplierKanta;
+            $partykanta->note = $request->input('title');
+            $partykanta->supplierid = $request->partyid;
+            $partykanta->type = $request->type;
+            $partykanta->date = $request->date;
+            $partykanta->amount = $request->amount;
+            $partykanta->save();
+        }
+
+        return Redirect::back()->with('success', 'Record added ');
     }
 
     /**

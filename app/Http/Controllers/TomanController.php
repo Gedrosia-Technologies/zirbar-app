@@ -31,7 +31,7 @@ class TomanController extends Controller
             }
         }
 
-        $balance = $incoming - $outgoing;
+        $balance = $outgoing - $incoming;
 
         return view('pages.toman_accounts.index', ['data' => $data, 'balance' => $balance]);
     }
