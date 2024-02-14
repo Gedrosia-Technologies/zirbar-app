@@ -19,6 +19,7 @@
 
     <!-- Custom styles for this template-->
     <link href="{!! asset('theme/css/sb-admin-2.min.css') !!}" rel="stylesheet">
+    <link rel="stylesheet" href="{!! asset('theme/dist/css/bootstrap-select.min.css') !!}">
 
 </head>
 
@@ -444,6 +445,12 @@
 
     <!-- Page level custom scripts -->
     <script src="{!! asset('js/script.js') !!}"></script>
+      <!-- Latest compiled and minified CSS -->
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="{!! asset('theme/dist/js/bootstrap-select.min.js') !!}"></script>
+
+    <!-- (Optional) Latest compiled and minified JavaScript translation files -->
+    <script src="{!! asset('theme/dist/js/i18n/defaults-*.min.js') !!}"></script>
 
     @yield('script')
 

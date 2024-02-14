@@ -173,7 +173,7 @@
                     </div>
                     <div class="form-group">
                         <label for="party">Party</label>
-                        <select class="form-control" name="party" id="party">
+                        <select class="form-control selectpicker" data-live-search="true"  name="party" id="party">
                             <option value="0" selected>None</option>
                             <?php $allparty =  \App\Models\party::all() ?>
                             @foreach($allparty as $party)

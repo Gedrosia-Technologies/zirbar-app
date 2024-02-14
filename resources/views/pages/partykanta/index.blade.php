@@ -157,7 +157,7 @@
                     <?php $accounts = \App\Models\Account::where('type',0)->get(); ?>
 
                     <div class="form-group">
-                        <label for="">Account:</label>
+                        <label for="">Investment Account:</label>
                         <select name="account" class="form-control" required>
                             @foreach($accounts as $account)
                             <option value="{{$account->id}}">{{$account->title}} - {{$account->description}}</option>

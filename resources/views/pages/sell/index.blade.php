@@ -285,7 +285,7 @@
 
                     <div class="form-group">
                         <label for="rate">Party:</label>
-                        <select class="form-control" name="partyid" id="type" required>
+                        <select class="form-control selectpicker" data-live-search="true"  name="partyid" id="type" required>
                             <option selected disabled>-----Please Select-----</option>
 
                             <?php $parties = \App\Models\Party::all(); ?>

@@ -210,7 +210,7 @@ $balancetom = 0;
                     </div>
                     <div class="form-group">
                         <label for="type">Client:</label>
-                        <select name="clientid" class="form-control">
+                        <select name="clientid" data-live-search="true"  class="form-control selectpicker">
                             <option value="null">-----Please Select Client------</option>
                             <?php 
                             $clients = App\Models\TomanClient::all();
@@ -284,7 +284,7 @@ $balancetom = 0;
                     </div>
                     <div class="form-group">
                         <label for="type">Supplier:</label>
-                        <select name="supplierid" class="form-control">
+                        <select name="supplierid" data-live-search="true"  class="form-control selectpicker">
                             <option value="null">-----Please Select Supplier------</option>
                             <?php 
                             $supplier = App\Models\TomanSupplier::all();
