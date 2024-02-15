@@ -44,8 +44,9 @@ class PartyController extends Controller
 
         $party = new Party();
         $party->name = $request->title;
+        $party->type = $request->type;
         $party->save();
-        return Redirect::back()->with('msg', 'The Message');
+        return Redirect::back()->with('success', 'Account Created Successfully!');
         
     }
 

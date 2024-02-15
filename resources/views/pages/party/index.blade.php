@@ -13,8 +13,13 @@
         <div class="col">
             <input type="text" name="title" required class="form-control" placeholder="Party Name">
         </div>
-        
-        <input type="hidden" name="type" value="partykanta" required class="form-control">
+        <div class="col">
+            <select name="type" class="form-control" id="" required>
+                <option value="" selected disabled>---Please Select Account Type---</option>
+                <option value="Client">Client</option>
+                <option value="Supplier">Supplier</option>
+            </select>
+        </div>
         
         <div class="col">
             <input type="submit" value="Add Party" class="btn btn-info submit">
@@ -36,6 +41,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Title/Name</th>
+                        <th>Account Type</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -43,6 +49,7 @@
                     <tr>
                         <th>ID</th>
                         <th>Title/Name</th>
+                        <th>Account Type</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -52,6 +59,7 @@
                     <tr>
                         <td>{{$data->id}}</td>
                         <td>{{$data->name}}</td>
+                        <td>{{$data->type}}</td>
                         <td><a class="btn btn-success" href="/Partykanta/{{$data->id}}">Khanta</a></td>
                     </tr>
                     @endforeach

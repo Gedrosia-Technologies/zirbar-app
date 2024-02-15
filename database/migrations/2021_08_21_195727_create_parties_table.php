@@ -16,7 +16,7 @@ class CreatePartiesTable extends Migration
         Schema::create('parties', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->string('company')->nullable();
+            $table->string('type')->nullable();
             $table->timestamps();
             $table->softDeletes();
 

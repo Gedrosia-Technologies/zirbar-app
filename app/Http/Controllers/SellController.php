@@ -140,7 +140,7 @@ class SellController extends Controller
         $table->type = 2;
         $table->sellid = $sell_id;
         $partykanta = new Partykanta();
-        $partykanta->note = $request->fuel . " Sold Rate: " . $request->rate/210 . " Liters: " . $request->liters;
+        $partykanta->note = $request->fuel . " Sold Rate: " . number_format($request->rate/210,2) . " Liters: " . $request->liters;
         $partykanta->partyid = $request->partyid;
         $partykanta->type = 2;
         $partykanta->date = $request->date;

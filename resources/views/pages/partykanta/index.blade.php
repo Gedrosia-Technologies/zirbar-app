@@ -36,18 +36,34 @@
         </form>
     </div>
 
+    @if($party->type == 'Client')
     <div class="col-6">
         <h3 class="text-center">Debit
         </button> &nbsp;<button type="button" class="btn btn-warning" data-toggle="modal"
             data-target="#exampleModal4">
-            <i class="fa fa-plus" aria-hidden="true"></i>
-        </button></h3>
+            <i class="fa fa-plus" aria-hidden="true"></i></button></h3>
     </div>
     <div class="col-6">
         <h3 class="text-center">Credit <button type="button" class="btn btn-success" data-toggle="modal"
             data-target="#exampleModal">
             <i class="fa fa-plus" aria-hidden="true"></i></button></h3>
     </div>
+    @else
+    
+    <div class="col-6">
+        <h3 class="text-center">Credit <button type="button" class="btn btn-success" data-toggle="modal"
+            data-target="#exampleModal">
+            <i class="fa fa-plus" aria-hidden="true"></i></button></h3>
+    </div>
+    <div class="col-6">
+        <h3 class="text-center">Debit
+        </button> &nbsp;<button type="button" class="btn btn-warning" data-toggle="modal"
+            data-target="#exampleModal4">
+            <i class="fa fa-plus" aria-hidden="true"></i></button></h3>
+    </div>
+    @endif
+   
+
 </div>
 <br>
 <div class="row">
@@ -58,7 +74,11 @@
         <h5>Debit : <span class="balance">{{number_format($total_debit,2)}}</span></h5>
     </div>
     <div class="col">
+        @if($party->type == 'Client')
         <h5>Balance : <span class="balance">{{number_format($total_credit - $total_debit,2)}}</span></h5>
+        @else
+        <h5>Balance : <span class="balance">{{number_format($total_debit - $total_credit,2)}}</span></h5>
+        @endif
     </div>
 </div>
 
@@ -154,16 +174,7 @@
                         <label for="">Date:</label>
                         <input type="date" name="date" value="{{date('Y-m-d')}}" required class="form-control">
                     </div>
-                    <?php $accounts = \App\Models\Account::where('type',0)->get(); ?>
-
-                    <div class="form-group">
-                        <label for="">Investment Account:</label>
-                        <select name="account" class="form-control" required>
-                            @foreach($accounts as $account)
-                            <option value="{{$account->id}}">{{$account->title}} - {{$account->description}}</option>
-                            @endforeach
-                        </select>
-                    </div>
+                   
                     <div class="form-group">
                         <label for="">Amount:</label>
                         <input type="text" name="amount" value="0" required class="amount-field form-control"

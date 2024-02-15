@@ -8,6 +8,7 @@ use App\Models\PurchaseDetails;
 use App\Models\Roznamcha;
 use App\Models\Stock;
 use App\Models\Stock_detail;
+use App\Models\Account_details;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -87,7 +88,7 @@ class PurchaseController extends Controller
         if ($request->party == 0) {
             // add to roznamcha
             $table = new Roznamcha;
-            $table->title = 'Payed for ' . $request->qtydrum . ' Drums ' . $request->qtyliter . ' Liters Rate: ' . $request->price . ' / Drum';
+            $table->title = 'Paid for ' . $request->qtydrum . ' Drums ' . $request->qtyliter . ' Liters Rate: ' . $request->price . ' / Drum';
             $table->amount = $rate * $liters;
             $table->type = 2;
             $table->date = $request->date;
@@ -104,7 +105,7 @@ class PurchaseController extends Controller
                 $partykanta->save();
                 //debit
                 $partykanta = new Partykanta;
-                $partykanta->note = 'Payed for ' . $request->qtydrum . ' Drums ' . $request->qtyliter . ' Liters Rate: ' . $request->price . ' / Drum';
+                $partykanta->note = 'Paid for ' . $request->qtydrum . ' Drums ' . $request->qtyliter . ' Liters Rate: ' . $request->price . ' / Drum';
                 $partykanta->partyid = $request->party;
                 $partykanta->type = 2;
                 $partykanta->date = $request->date;
@@ -112,7 +113,7 @@ class PurchaseController extends Controller
                 $partykanta->save();
                 // add to roznamcha
                 $table = new Roznamcha;
-                $table->title = 'Payed for ' . $request->qtydrum . ' Drums ' . $request->qtyliter . ' Liters Rate: ' . $request->price . ' / Drum';
+                $table->title = 'Paid for ' . $request->qtydrum . ' Drums ' . $request->qtyliter . ' Liters Rate: ' . $request->price . ' / Drum';
                 $table->amount = $rate * $liters;
                 $table->type = 2;
                 $table->date = $request->date;
@@ -130,6 +131,24 @@ class PurchaseController extends Controller
                 $partykanta->save();
             }
         }
+
+       
+
+        $account_details = new Account_details();
+        $account_details->account_id = 1;
+        $account_details->description= 'Paid for ' . $request->qtydrum . ' Drums ' . $request->qtyliter . ' Liters Rate: ' . $request->price . ' / Drum';
+        $account_details->type = 0;
+        $account_details->date = $request->date;
+        $account_details->amount = $rate * $liters;
+        $account_details->save();
+
+        $rz = new Roznamcha();
+        $rz->title = 'Account id('.$account_details->id.') Balance Credit';
+        $rz->amount=  $rate * $liters;
+        $rz->type = 1;
+        $rz->date = $request->date;
+        $rz->save();
+
         return Redirect::back()->with('success', 'Purchase order added');
     }
     public function close(Request $request)

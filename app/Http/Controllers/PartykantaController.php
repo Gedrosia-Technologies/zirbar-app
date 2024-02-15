@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Party;
 use App\Models\Partykanta;
+use App\Models\Roznamcha;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use PDF;
@@ -40,7 +41,7 @@ class PartykantaController extends Controller
     public function store(Request $request)
     {
 
-        if ($request->type == 1) {
+        $party = Party::find($request->partyid);
             $partykanta = new Partykanta;
             $partykanta->note = $request->input('title');
             $partykanta->partyid = $request->partyid;
@@ -49,16 +50,20 @@ class PartykantaController extends Controller
             $partykanta->amount = $request->amount;
             $partykanta->save();
 
-        }
-        //debit
-        if ($request->type == 2) {
-            $partykanta = new Partykanta;
-            $partykanta->note = $request->input('title');
-            $partykanta->partyid = $request->partyid;
-            $partykanta->type = $request->type;
-            $partykanta->date = $request->date;
-            $partykanta->amount = $request->amount;
-            $partykanta->save();
+        if ($party->type == 'Client') {
+            $rz = new Roznamcha();
+            $rz->title = "Amount Recevied Party Kanta ID : ".$request->partyid;
+            $rz->amount = $request->amount;
+            $rz->type = 1;
+            $rz->date = $request->date;
+            $rz->save();
+        }else{
+            $rz = new Roznamcha();
+            $rz->title = "Amount Paid Party Kanta ID : ".$request->partyid;
+            $rz->amount = $request->amount;
+            $rz->type = 2;
+            $rz->date = $request->date;
+            $rz->save();
         }
 
         return Redirect::back()->with('success', 'Record added ');

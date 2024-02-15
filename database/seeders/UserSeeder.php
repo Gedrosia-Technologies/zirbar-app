@@ -25,6 +25,11 @@ class UserSeeder extends Seeder
         ]);
         DB::table('parties')->insert([
             'name' => Str::random(10),
+            'type' => 'Client',
+        ]);
+        DB::table('parties')->insert([
+            'name' => Str::random(10),
+            'type' => 'Supplier',
         ]);
         DB::table('stocks')->insert([
             'type' => 'Diesel',
@@ -39,17 +44,10 @@ class UserSeeder extends Seeder
             'remaining' => 0.00,
         ]);
 
-        DB::table('units')->insert([
-            'title' => 'unit1',
-            'type' => 'Diesel',
-            'counter' => 0.00,
-            'rate' => 175.00,
-        ]);
-        DB::table('units')->insert([
-            'title' => 'unit2',
-            'type' => 'Petrol',
-            'counter' => 0.00,
-            'rate' => 175.00,
+        DB::table('accounts')->insert([
+            'title' => 'Default Account',
+            'description' => 'Default Account',
+            'type' => 1,
         ]);
 
     }

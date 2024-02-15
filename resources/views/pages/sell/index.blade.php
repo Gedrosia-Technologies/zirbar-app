@@ -288,7 +288,7 @@
                         <select class="form-control selectpicker" data-live-search="true"  name="partyid" id="type" required>
                             <option selected disabled>-----Please Select-----</option>
 
-                            <?php $parties = \App\Models\Party::all(); ?>
+                            <?php $parties = \App\Models\Party::where('type','Client')->get(); ?>
                             @foreach($parties as $data)
                             <option value="{{$data->id}}">{{$data->name}}</option>
                             @endforeach

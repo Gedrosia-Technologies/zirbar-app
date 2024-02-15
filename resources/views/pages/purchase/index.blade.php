@@ -175,7 +175,7 @@
                         <label for="party">Party</label>
                         <select class="form-control selectpicker" data-live-search="true"  name="party" id="party">
                             <option value="0" selected>None</option>
-                            <?php $allparty =  \App\Models\party::all() ?>
+                            <?php $allparty =  \App\Models\party::where('type','Supplier')->get(); ?>
                             @foreach($allparty as $party)
                             <option value="{{$party->id}}">{{$party->name}}</option>
                             @endforeach
