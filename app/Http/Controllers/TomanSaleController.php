@@ -51,6 +51,7 @@ class TomanSaleController extends Controller
         $toman_blance->clientid = $request->clientid;
         $toman_blance->type = 1;
         $toman_blance->date = $request->date;
+        $toman_blance->note = "Toman Purchased";
         $toman_blance->amount = $tomanammount;
         $toman_blance->save();
         $toman_blance_id = $toman_blance->id;

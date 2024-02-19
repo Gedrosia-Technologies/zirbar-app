@@ -90,6 +90,16 @@ class TomanClientKantaController extends Controller
         return view('pages.tomanclientkanta.index', ['party' => $data, 'kanta' => $data2,'toman_balance'=>$toman_balance ]);
     }
 
+
+    public function toman_show($id)
+    {
+        $toman_data = ClientTomanBalance::where('clientid',$id)->get();
+       
+        $data = TomanClient::where('id', $id)->first();
+
+        return view('pages.tomanclientkanta.balance', ['party' => $data, 'kanta' => $toman_data ]);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -102,6 +112,7 @@ class TomanClientKantaController extends Controller
             $partykanta = new ClientTomanBalance;
             $partykanta->clientid = $request->partyid;
             $partykanta->type = $request->type;
+            $partykanta->note = $request->note;
             $partykanta->date = date('Y-m-d');
             $partykanta->amount = $request->amount;
             $partykanta->save();
@@ -133,7 +144,14 @@ class TomanClientKantaController extends Controller
         //
         $data = TomanClientKanta::find($request->id);
         $data->delete();
-        return Redirect::back()->with('danger', 'Record Delete');
+        return Redirect::back()->with('danger', 'Record Deleted');
+    }
+    public function toman_balance_delete(Request $request)
+    {
+        //
+        $data = ClientTomanBalance::find($request->id);
+        $data->delete();
+        return Redirect::back()->with('danger', 'Record Deleted');
     }
 
     public function displayReport2(Request $request)

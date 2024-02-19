@@ -181,3 +181,5 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Sell', [TomanSaleC
 
 // Client Toman Balance Route
 Route::middleware(['auth:sanctum', 'verified'])->post('/ClientTomanBalance/create', [TomanClientKantaController::class, 'update_tomain_balance'])->name('clientkanta-tomin-update');
+Route::middleware(['auth:sanctum', 'verified'])->get('/ClientTomanBalance/{id}', [TomanClientKantaController::class, 'toman_show']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/ClientTomanBalance/delete', [TomanClientKantaController::class, 'toman_balance_delete'])->name('clientkanta-tomin-delete');

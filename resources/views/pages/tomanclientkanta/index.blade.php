@@ -16,15 +16,18 @@
 @endforeach
 
 <div class="row">
-    <div class="col-6">
+    <div class="col-2">
         <h6>Tomain Balance : <span class="balance">{{number_format($toman_balance,2)}}</span> </h6>
+        <a href="/ClientTomanBalance/{{$party->id}}"  class="btn btn-success">Toman Account</a>
     </div>
-    <div class="col-6">
+    <div class="col-8">
         <form class="form form-inline submit"  action="{{route('clientkanta-tomin-update')}}" method="post">
             @csrf
             Toman Amount: <input type="number" name="amount"  required class="form-control">
             &nbsp;
             Type : <select class="form-control" required name="type" id=""><option value="1">Credit</option><option value="2">Debit</option></select>
+            &nbsp;
+            Note : <input type="text" name="note" required class="form-control" placeholder="Note">
             &nbsp;
             <input type="hidden" name="partyid" value="{{$party->id}}">
             &nbsp;
