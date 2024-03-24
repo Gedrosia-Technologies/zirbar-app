@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Partykanta;
 use App\Models\Purchase;
+use App\Models\PurchaseCon;
 use App\Models\PurchaseDetails;
 use App\Models\Roznamcha;
 use App\Models\Stock;
@@ -54,6 +55,8 @@ class PurchaseController extends Controller
         if (!$data) {
             $status = 1;
         }
+
+        $purchasecon = new PurchaseCon();
         $purchase = new Purchase();
         $purchase->type = $request->type;
 
@@ -70,6 +73,10 @@ class PurchaseController extends Controller
         $purchase->status = $status;
         $purchase->save();
         $purchaseid = $purchase->id;
+       
+        //purchase con
+        $purchasecon->purchaseid = $purchase->id;
+        //puchase con
 
         //add stock
 
@@ -82,6 +89,10 @@ class PurchaseController extends Controller
         $stock_detail->date = $request->date;
         $stock_detail->save();
 
+         //purchase con
+         $purchasecon->stockdetailid = $stock_detail->id;
+         //puchase con
+
         // $stock->liters = $request->liters + $liters;
         // $stock->save();
 
@@ -93,24 +104,39 @@ class PurchaseController extends Controller
             $table->type = 2;
             $table->date = $request->date;
             $table->save();
+             //purchase con
+        $purchasecon->roznamchadebitid = $table->id;
+        //puchase con
         } else if ($request->party > 0) {
             if ($request->status == 1) {
                 // credit
-                $partykanta = new Partykanta;
-                $partykanta->note = 'Purchased ' . $request->qtydrum . ' Drums ' . $request->qtyliter . ' Liters Rate: ' . $request->price . ' / Drum';
-                $partykanta->partyid = $request->party;
-                $partykanta->type = 1;
-                $partykanta->date = $request->date;
-                $partykanta->amount = $rate * $liters;
-                $partykanta->save();
+                $pkc = new Partykanta;
+                $pkc->note = 'Purchased ' . $request->qtydrum . ' Drums ' . $request->qtyliter . ' Liters Rate: ' . $request->price . ' / Drum';
+                $pkc->partyid = $request->party;
+                $pkc->type = 1;
+                $pkc->date = $request->date;
+                $pkc->amount = $rate * $liters;
+                $pkc->save();
+                $pkcid = $pkc->id;
+
+                  //purchase con
+                 $purchasecon->partykantacreditid = $pkcid;
+                 //puchase con
+
                 //debit
-                $partykanta = new Partykanta;
-                $partykanta->note = 'Paid for ' . $request->qtydrum . ' Drums ' . $request->qtyliter . ' Liters Rate: ' . $request->price . ' / Drum';
-                $partykanta->partyid = $request->party;
-                $partykanta->type = 2;
-                $partykanta->date = $request->date;
-                $partykanta->amount = $rate * $liters;
-                $partykanta->save();
+                $pkd = new Partykanta;
+                $pkd->note = 'Paid for ' . $request->qtydrum . ' Drums ' . $request->qtyliter . ' Liters Rate: ' . $request->price . ' / Drum';
+                $pkd->partyid = $request->party;
+                $pkd->type = 2;
+                $pkd->date = $request->date;
+                $pkd->amount = $rate * $liters;
+                $pkd->save();
+                $pkdid = $pkd->id;
+
+                 //purchase con
+                 $purchasecon->partykantadebitid = $pkdid;
+                 //puchase con
+
                 // add to roznamcha
                 $table = new Roznamcha;
                 $table->title = 'Paid for ' . $request->qtydrum . ' Drums ' . $request->qtyliter . ' Liters Rate: ' . $request->price . ' / Drum';
@@ -118,6 +144,9 @@ class PurchaseController extends Controller
                 $table->type = 2;
                 $table->date = $request->date;
                 $table->save();
+                 //purchase con
+                 $purchasecon->roznamchadebitid = $table->id;
+                 //puchase con
 
             }
             //credit only
@@ -129,6 +158,10 @@ class PurchaseController extends Controller
                 $partykanta->date = $request->date;
                 $partykanta->amount = $rate * $liters;
                 $partykanta->save();
+
+                 //purchase con
+                 $purchasecon->partykantacreditid = $partykanta->id;
+                 //puchase con
             }
         }
 
@@ -142,12 +175,22 @@ class PurchaseController extends Controller
         $account_details->amount = $rate * $liters;
         $account_details->save();
 
+        //purchase con
+        $purchasecon->accountdetailid = $account_details->id;
+        //puchase con
+
         $rz = new Roznamcha();
         $rz->title = 'Account id('.$account_details->id.') Balance Credit';
         $rz->amount=  $rate * $liters;
         $rz->type = 1;
         $rz->date = $request->date;
         $rz->save();
+
+        //purchase con
+        $purchasecon->roznamchacreditid = $rz->id;
+        //puchase con
+
+        $purchasecon->save();
 
         return Redirect::back()->with('success', 'Purchase order added');
     }
@@ -200,9 +243,41 @@ class PurchaseController extends Controller
      * @param  \App\Models\Purchase  $purchase
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Purchase $purchase)
+    public function destroy(Request $request)
     {
-        //
+    
+        $purchase = Purchase::find($request->id);
+        $purchasecon = PurchaseCon::where('purchaseid',$request->id)->first();
+
+        $stockdetail = Stock_detail::find($purchasecon->stockdetailid);
+        if($stockdetail != null)
+        $stockdetail->delete();
+
+        $ad = Account_details::find($purchasecon->accountdetailid);
+        if($ad != null)
+        $ad->delete();
+
+        $pkc = Partykanta::find($purchasecon->partykantacreditid);
+        if($pkc != null)
+        $pkc->delete();
+
+        $pkd = Partykanta::find($purchasecon->partykantadebitid);
+        if($pkd != null)
+        $pkd->delete();
+
+        $rzd = Roznamcha::find($purchasecon->roznamchadebitid);
+        if($rzd != null)
+        $rzd->delete();
+
+        $rzc = Roznamcha::find($purchasecon->roznamchacreditid);
+        if($rzc != null)
+        $rzc->delete();
+
+        $purchasecon->delete();
+        $purchase->delete();
+
+        return Redirect::back()->with('danger', 'Purchase Deleted !');
+
     }
 
     function print(Request $request) {

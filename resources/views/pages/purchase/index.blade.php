@@ -91,7 +91,7 @@
                             {{number_format($liters_left,2)}}
 
                         </td>
-                        <td>{{$data->amount}}</td>
+                        <td>{{number_format($data->amount,2)}}</td>
                         @if($data->party == 0)
                         <td>Individual</td>
                         @else
@@ -114,7 +114,13 @@
                             <span class="badge badge-success">Paid</span>
                             @endif
                         </td> --}}
-                        <td><a class="btn btn-success" href="/purchaseDetails/{{$data->id}}">Details</a></td>
+                        <td>
+                            <a class="btn btn-success" href="/purchaseDetails/{{$data->id}}">Details</a>
+                            @if(auth()->user()->isadmin && $data->status == 0)
+                    <button class="btn btn-danger" data-id="{{$data->id}}" data-action="{{route('delete_purchase')}}" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash" aria-hidden="true"></i></button>    
+                            @endif
+                        </td>
+                        
                     </tr>
                     @endforeach
                 </tbody>
@@ -139,39 +145,43 @@
             <div class="modal-body">
                 <form method="post" class="submit" action="{{ route('add_purchase') }}">
                     @csrf
-                    <div class="form-group">
+                    <div class="row">
+                    <div class="form-group col-6">
                         <label for="date">Date</label>
                         <input type="date" id="date" name="date" value="{{date('Y-m-d')}}" required
                             class="form-control">
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-6">
                         <label for="type">Type</label>
                         <select name="type" id="type" class="form-control" required="required">
                             <option value="Diesel">Diesel</option>
                             <option value="Petrol">Petrol</option>
                         </select>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-6">
                         <label for="qtydrum">Quantity-Drum</label>
                         <input id="qtydrum" name="qtydrum" class="form-control" value="0" min="0" type="number"
                             required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-6">
                         <label for="qtyliter">Quantity-Liter</label>
                         <input id="qtyliter" name="qtyliter" class="form-control" value="0" min="0" max="209"
                             type="number" required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-6">
                         <label for="rate">Tomin Rate:</label>
                         <input id="rate" class="form-control" type="number" name="rate"  required>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-6">
                         <label for="price">Price per drum(Tomin):</label>
                         <input id="price" class="form-control" type="number" name="price" required>
+                        
+                    </div>
+                    <div class="form-group col-12">
                         <small class="form-text text-primary text-center" id="pricecal">Total Amount: 0 Total Quantity:
                             0</small>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group col-12">
                         <label for="party">Party</label>
                         <select class="form-control selectpicker" data-live-search="true"  name="party" id="party">
                             <option value="0" selected>None</option>
@@ -181,13 +191,15 @@
                             @endforeach
                         </select>
                     </div>
-                    <div class="form-group" id="statuscontainer">
+                    <div class="form-group col-12" id="statuscontainer">
                         <label for="status">Status</label>
                         <select class="form-control" name="status" id="status">
                             <option value="1" selected>Paid</option>
                             <option value="0">Unpaid</option>
                         </select>
                     </div>
+
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="submit" class="btn btn-primary submit">Add Purchase</button>

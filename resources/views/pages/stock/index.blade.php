@@ -69,12 +69,12 @@
                             {{$liters - $rliters}}
                         </td>
                         <td class="d-flex justify-content-around">
-                            @if(auth()->user()->isadmin)
+                            {{-- @if(auth()->user()->isadmin)
                             <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#updateModal"
                                 data-id="{{$data->id}}" data-type="{{$data->type}}" data-counter="{{$data->liters}}"><i
                                     class="fa fa-edit" aria-hidden="true"></i>
                                 Edit</button>
-                            @endif
+                            @endif --}}
                             <a class="btn btn-success" href="/StockDetails/{{$data->id}}">Details</a>
                         </td>
                     </tr>

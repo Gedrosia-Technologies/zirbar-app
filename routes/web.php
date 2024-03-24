@@ -79,6 +79,7 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/Accounts/update', [Accou
 //Purchase routes
 Route::middleware(['auth:sanctum', 'verified'])->get('/Purchase', [PurchaseController::class, 'index']);
 Route::middleware(['auth:sanctum', 'verified'])->post('/Purchase/New', [PurchaseController::class, 'store'])->name('add_purchase');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Purchase/delete', [PurchaseController::class, 'destroy'])->name('delete_purchase');
 Route::middleware(['auth:sanctum', 'verified'])->post('/Purchase/close', [PurchaseController::class, 'close'])->name('purchase-close');
 Route::middleware(['auth:sanctum', 'verified'])->post('/Purchase/fish/print', [PurchaseController::class, 'print'])->name('purchase-fish-print');
 
