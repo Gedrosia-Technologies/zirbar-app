@@ -48,7 +48,7 @@
                         <th>Quantity</th>
                         <th>Remaining Liters</th>
                         <th>Amount</th>
-                        <th>Party</th>
+                        <th>Note</th>
                         <th>Status</th>
                         {{-- <th>Payment</th> --}}
                         <th>Action</th>
@@ -62,7 +62,7 @@
                         <th>Quantity</th>
                         <th>Remaining Liters</th>
                         <th>Amount</th>
-                        <th>Party</th>
+                        <th>Note</th>
                         <th>Status</th>
                         {{-- <th>Payment</th> --}}
                         <th>Action</th>
@@ -92,14 +92,15 @@
 
                         </td>
                         <td>{{number_format($data->amount,2)}}</td>
-                        @if($data->party == 0)
+                        {{-- @if($data->party == 0)
                         <td>Individual</td>
                         @else
                         <td>
-                            <?php $party =  \App\Models\party::where('id',$data->party)->first(); ?>
+                            <?php $party =  \App\Models\Party::where('id',$data->party)->first(); ?>
                             {{$party->name}}
                         </td>
-                        @endif
+                        @endif --}}
+                        <td>{{$data->note}}</td>
                         @if($data->status == 0)
                         <td>in Stock</td>
                         @elseif($data->status == 1)
@@ -116,7 +117,7 @@
                         </td> --}}
                         <td>
                             <a class="btn btn-success" href="/purchaseDetails/{{$data->id}}">Details</a>
-                            @if(auth()->user()->isadmin && $data->status == 0)
+                            @if(auth()->user()->isadmin && $data->status != 2)
                     <button class="btn btn-danger" data-id="{{$data->id}}" data-action="{{route('delete_purchase')}}" data-toggle="modal" data-target="#deleteModal"><i class="fa fa-trash" aria-hidden="true"></i></button>    
                             @endif
                         </td>
@@ -181,11 +182,18 @@
                         <small class="form-text text-primary text-center" id="pricecal">Total Amount: 0 Total Quantity:
                             0</small>
                     </div>
+
                     <div class="form-group col-12">
+                        <label for="note">Note:</label>
+                        <input id="note" class="form-control" type="text" name="note" required>
+                        
+                    </div>
+
+                    <div class="form-group col-12" style="display: none">
                         <label for="party">Party</label>
                         <select class="form-control selectpicker" data-live-search="true"  name="party" id="party">
                             <option value="0" selected>None</option>
-                            <?php $allparty =  \App\Models\party::where('type','Supplier')->get(); ?>
+                            <?php $allparty =  \App\Models\Party::where('type','Supplier')->get(); ?>
                             @foreach($allparty as $party)
                             <option value="{{$party->id}}">{{$party->name}}</option>
                             @endforeach

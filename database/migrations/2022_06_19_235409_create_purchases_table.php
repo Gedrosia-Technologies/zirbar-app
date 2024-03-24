@@ -25,6 +25,7 @@ class CreatePurchasesTable extends Migration
             $table->integer('paid')->default(1);
             $table->date('date');
             $table->integer('status')->default(0); //0 purchase//1 in use//2 sold
+            $table->string('note')->nullable(); 
             $table->timestamps();
             $table->softDeletes();
 

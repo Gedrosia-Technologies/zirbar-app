@@ -71,6 +71,7 @@ class PurchaseController extends Controller
         $purchase->party = $request->party;
         $purchase->paid = $request->status;
         $purchase->status = $status;
+        $purchase->note = $request->note;
         $purchase->save();
         $purchaseid = $purchase->id;
        

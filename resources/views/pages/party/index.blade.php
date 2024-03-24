@@ -17,7 +17,7 @@
             <select name="type" class="form-control" id="" required>
                 <option value="" selected disabled>---Please Select Account Type---</option>
                 <option value="Client">Client</option>
-                <option value="Supplier">Supplier</option>
+                {{-- <option value="Supplier">Supplier</option> --}}
             </select>
         </div>
         
