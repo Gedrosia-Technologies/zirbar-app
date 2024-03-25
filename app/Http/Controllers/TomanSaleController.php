@@ -89,7 +89,7 @@ class TomanSaleController extends Controller
 
         
         // add to toman
-        $toman = new toman();
+        $toman = new Toman();
 
         $toman->type = 2;
         $toman->partyid = $request->clientid;
