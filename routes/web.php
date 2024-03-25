@@ -17,13 +17,16 @@ use App\Http\Controllers\StockController;
 use App\Http\Controllers\StockDetailController;
 use App\Http\Controllers\TomanClientController;
 use App\Http\Controllers\TomanClientKantaController;
-use App\Http\Controllers\TomanController;
-use App\Http\Controllers\TomanPurchaseController;
-use App\Http\Controllers\TomanSaleController;
 use App\Http\Controllers\TomanSupplierController;
 use App\Http\Controllers\TomanSupplierKantaController;
 use App\Http\Controllers\UnitController;
 use App\Models\TomanClientKanta;
+use App\Http\Controllers\TomanTransactionController;
+use App\Http\Controllers\TomanPurchasedetailController;
+use App\Http\Controllers\TomanSaleController;
+use App\Http\Controllers\TomanStockerController;
+use App\Http\Controllers\TomanStockerKantaController;
+use App\Http\Controllers\TomanTransactionDetailsController;
 use App\Models\TomanSupplier;
 use App\Models\TomanSupplierKanta;
 use Illuminate\Support\Facades\Route;
@@ -141,12 +144,22 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/Partykanta/update', [Par
 
 
 //Toman Routes
-Route::middleware(['auth:sanctum', 'verified'])->get('/TomanAccounts', [TomanController::class, 'index']);
-Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/date', [TomanController::class, 'date'])->name('toman-accounts-get-date');
-Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/print', [TomanController::class, 'displayReport2'])->name('toman-accounts-print');
-Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/delete', [RoznamchaController::class, 'destroy'])->name('roznamcha-delete');
-Route::middleware(['auth:sanctum', 'verified'])->post('/roznamcha/edit', [RoznamchaController::class, 'edit'])->name('roznamcha-edit');
-Route::middleware(['auth:sanctum', 'verified'])->post('/roznamcha/update', [RoznamchaController::class, 'update'])->name('roznamcha-update');
+Route::middleware(['auth:sanctum', 'verified'])->get('/TomanAccounts', [TomanTransactionController::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/date', [TomanTransactionController::class, 'date'])->name('toman-accounts-get-date');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/print', [TomanTransactionController::class, 'displayReport2'])->name('toman-accounts-print');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/delete', [TomanTransactionController::class, 'destroy'])->name('toman-accounts-delete');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/edit', [TomanTransactionController::class, 'edit'])->name('toman-accounts-edit');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/update', [TomanTransactionController::class, 'update'])->name('toman-accounts-update');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/close', [TomanTransactionController::class, 'closeTransaction'])->name('close_tomantransaction');
+// Toman purchase and sell routes
+Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Purchase', [TomanTransactionController::class, 'store'])->name('toman_purchase');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Sell', [TomanSaleController::class, 'store'])->name('toman_sell');
+
+// Toman Transaction Detial Routes
+Route::middleware(['auth:sanctum', 'verified'])->get('/TomanTransactionDetails/{id}', [TomanTransactionDetailsController::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanTransactionDetails/add', [TomanTransactionDetailsController::class, 'store'])->name('add_tomantransactiondetail');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanTransactionDetails/delete', [TomanTransactionDetailsController::class, 'destroy'])->name('delete_tomantransactiondetail');
+
 
 //Toman Supplier
 Route::middleware(['auth:sanctum', 'verified'])->get('/TomanSuppliers', [TomanSupplierController::class, 'index']);
@@ -174,13 +187,22 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/Clientkanta/delete', [To
 Route::middleware(['auth:sanctum', 'verified'])->post('/Clientkanta/edit', [TomanClientKantaController::class, 'edit'])->name('clientkanta-edit');
 Route::middleware(['auth:sanctum', 'verified'])->post('/Clientkanta/update', [TomanClientKantaController::class, 'update'])->name('clientkanta-update');
 
-// Toman Purchase Routes
-Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Purchase', [TomanPurchaseController::class, 'store'])->name('toman_purchase');
 
-// Toman Sell Routes
-Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Sell', [TomanSaleController::class, 'store'])->name('toman_sell');
 
 // Client Toman Balance Route
 Route::middleware(['auth:sanctum', 'verified'])->post('/ClientTomanBalance/create', [TomanClientKantaController::class, 'update_tomain_balance'])->name('clientkanta-tomin-update');
 Route::middleware(['auth:sanctum', 'verified'])->get('/ClientTomanBalance/{id}', [TomanClientKantaController::class, 'toman_show']);
 Route::middleware(['auth:sanctum', 'verified'])->post('/ClientTomanBalance/delete', [TomanClientKantaController::class, 'toman_balance_delete'])->name('clientkanta-tomin-delete');
+
+//Toman Stocker
+Route::middleware(['auth:sanctum', 'verified'])->get('/TomanStockers', [TomanStockerController::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanStockers/create', [TomanStockerController::class, 'store'])->name('add_toman_stocker');
+
+//Toman Stocker Kanta Routes
+Route::middleware(['auth:sanctum', 'verified'])->get('/Stockerkanta/{id}', [TomanStockerKantaController::class, 'show']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/Stockerkanta/print', [TomanStockerKantaController::class, 'displayReport2'])->name('stockerkanta-print');
+// Route::middleware(['auth:sanctum', 'verified'])->post('/Stockerkanta/create', [TomanStockerKantaController::class, 'store'])->name('add-stockerkanta');
+// Route::middleware(['auth:sanctum', 'verified'])->post('/Stockerkanta/delete', [TomanStockerKantaController::class, 'destroy'])->name('supplierkanta-delete');
+// Route::middleware(['auth:sanctum', 'verified'])->post('/Stockerkanta/edit', [TomanStockerKantaController::class, 'edit'])->name('supplierkanta-edit');
+// Route::middleware(['auth:sanctum', 'verified'])->post('/Stockerkanta/update', [TomanStockerKantaController::class, 'update'])->name('supplierkanta-update');
+

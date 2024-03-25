@@ -1,52 +1,5 @@
 @extends('layouts.theme')
 @section('content')
-{{-- PKR --}}
-<?php
-$total_incoming = 0;
-$total_outgoing = 0;
-
-?>
-@foreach($data as $row)
-
-@if($row->type == 1)
-<?php
-        $total_incoming += $row->amount;
-        ?>
-@endif
-@if($row->type == 2)
-<?php
-        $total_outgoing += $row->amount;
-        ?>
-@endif
-
-
-@endforeach
-
-{{-- Toman --}}
-<?php
-$total_incomingtom = 0;
-$total_outgoingtom = 0;
-$balancetom = 0;
-
-?>
-@foreach($data as $row)
-
-@if($row->type == 1)
-<?php
-        $total_incomingtom += $row->toman;
-        ?>
-@endif
-@if($row->type == 2)
-<?php
-        $total_outgoingtom += $row->toman;
-        ?>
-@endif
-
-
-@endforeach
-
-<?php $balancetom = $total_incomingtom - $total_outgoingtom ?>
-
 <div class="row">
 
     <div class="col-sm">
@@ -78,13 +31,13 @@ $balancetom = 0;
 <h3 class="text-center text-primary">Accounts PKR</h3>
 <div class="row">
     <div class="col">
-        <h5>Purchase : <span class="balance">{{number_format($total_incoming,2)}}</span></h5>
+        <h5>Spent : <span class="balance">{{number_format($pkrBalance['outgoing'],2)}}</span></h5>
     </div>
     <div class="col">
-        <h5>Sale : <span class="balance">{{number_format($total_outgoing,2)}}</span></h5>
+        <h5>Earned : <span class="balance">{{number_format($pkrBalance['incoming'],2)}}</span></h5>
     </div>
     <div class="col">
-        <h5>Balance : <span class="balance">{{number_format($balance,2)}}</span></h5>
+        <h5>Balance : <span class="balance">{{number_format($pkrBalance['balance'],2)}}</span></h5>
     </div>
 </div>
 <hr>
@@ -93,13 +46,13 @@ $balancetom = 0;
 <h3 class="text-center text-primary">Toman Stock</h3>
 <div class="row">
     <div class="col">
-        <h5>incoming : <span class="balance">{{number_format($total_incomingtom,2)}}</span></h5>
+        <h5>Purchase : <span class="balance">{{number_format($tomanBalance['incoming'],2)}}</span></h5>
     </div>
     <div class="col">
-        <h5>Outgoing : <span class="balance">{{number_format($total_outgoingtom,2)}}</span></h5>
+        <h5>Sale : <span class="balance">{{number_format($tomanBalance['outgoing'],2)}}</span></h5>
     </div>
     <div class="col">
-        <h5>Balance : <span class="balance">{{number_format($balancetom,2)}}</span></h5>
+        <h5>Balance : <span class="balance">{{number_format($tomanBalance['balance'],2)}}</span></h5>
     </div>
 </div>
 <hr>
@@ -132,6 +85,7 @@ $balancetom = 0;
                         <th>Toman</th>
                         <th>Rate</th>
                         <th>Amount PKR</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
                 <tfoot>
@@ -144,6 +98,7 @@ $balancetom = 0;
                         <th>Toman</th>
                         <th>Rate</th>
                         <th>Amount PKR</th>
+                        <th>Action</th>
                     </tr>
                 </tfoot>
                 <tbody>
@@ -178,6 +133,9 @@ $balancetom = 0;
                         <td>{{number_format($row->toman)}}</td>
                         <td>{{number_format($row->rate)}}</td>
                         <td>{{number_format($row->amount)}}</td>
+                        <td>
+                            <a class="btn btn-success" href="/TomanTransactionDetails/{{$row->id}}">Details</a>
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
@@ -202,7 +160,7 @@ $balancetom = 0;
             <div class="modal-body">
                 <form method="post" class="submit" id="sellform" action="{{ route('toman_sell') }}">
                     @csrf
-
+                    <input type="hidden" name="type" value="2">
                     <div class="form-group">
                         <label for="title">Date:</label>
                         <input id="title" class="form-control" type="date" name="date" value="{{date('Y-m-d')}}"
@@ -210,8 +168,8 @@ $balancetom = 0;
                     </div>
                     <div class="form-group">
                         <label for="type">Client:</label>
-                        <select name="clientid" data-live-search="true"  class="form-control selectpicker">
-                            <option value="null">-----Please Select Client------</option>
+                        <select name="clientid" required data-live-search="true"  class="form-control selectpicker">
+                            <option value="">-----Please Select Client------</option>
                             <?php 
                             $clients = App\Models\TomanClient::all();
                              ?>
@@ -237,8 +195,8 @@ $balancetom = 0;
                         <small class="form-text text-danger" id="ratehelpsell"></small>
                     </div>
                     <div class="form-group">
-                        <label for="type">Sell As:</label>
-                        <select name="type" class="form-control">
+                        <label for="acctype">Sell As:</label>
+                        <select name="acctype" class="form-control">
                             <option value="1">
                                 Credit
                             </option>
@@ -276,7 +234,7 @@ $balancetom = 0;
             <div class="modal-body">
                 <form method="post" class="submit" id="purchaseform" action="{{ route('toman_purchase') }}">
                     @csrf
-
+                    <input type="hidden" name="type" value="1">
                     <div class="form-group">
                         <label for="title">Date:</label>
                         <input id="title" class="form-control" type="date" name="date" value="{{date('Y-m-d')}}"
@@ -284,8 +242,8 @@ $balancetom = 0;
                     </div>
                     <div class="form-group">
                         <label for="type">Supplier:</label>
-                        <select name="supplierid" data-live-search="true"  class="form-control selectpicker">
-                            <option value="null">-----Please Select Supplier------</option>
+                        <select name="supplierid" required data-live-search="true"  class="form-control selectpicker">
+                            <option value="">-----Please Select Supplier------</option>
                             <?php 
                             $supplier = App\Models\TomanSupplier::all();
                              ?>
@@ -312,8 +270,8 @@ $balancetom = 0;
                     </div>
                     
                     <div class="form-group">
-                        <label for="type">Purchase As:</label>
-                        <select name="type" class="form-control">
+                        <label for="acctype">Purchase As:</label>
+                        <select name="acctype" class="form-control">
                             <option value="1">
                                 Credit
                             </option>

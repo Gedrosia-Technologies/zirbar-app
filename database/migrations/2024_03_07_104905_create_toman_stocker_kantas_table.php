@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTomanSalesTable extends Migration
+class CreateTomanStockerKantasTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,12 @@ class CreateTomanSalesTable extends Migration
      */
     public function up()
     {
-        Schema::create('toman_sales', function (Blueprint $table) {
+        Schema::create('toman_stocker_kantas', function (Blueprint $table) {
             $table->id();
-            $table->integer('partyid'); // client id
-            $table->integer('toman_balance_id');
-            $table->integer('acctype');
-            $table->decimal('toman', 20, 2);
-            $table->decimal('rate', 20, 2);
-            $table->integer('isopen')->default(1); // 1 is open 0 is closed
+            $table->integer('stockerid');
+            $table->integer('type');
             $table->decimal('amount', 20, 2);
+            $table->string('note');
             $table->date('date');
             $table->timestamps();
             $table->softDeletes();
@@ -35,6 +32,6 @@ class CreateTomanSalesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('toman_sales');
+        Schema::dropIfExists('toman_stocker_kantas');
     }
 }

@@ -58,12 +58,12 @@ class TomanSaleController extends Controller
 
         //add in toman purchase        
         $sale = new TomanSale();
-        $sale->clientid = $request->clientid;
+        $sale->partyid = $request->clientid;
         $sale->toman_balance_id = $toman_blance_id;
         $sale->toman = $tomanammount;
         $sale->rate = $rate;
         $sale->amount = $total; 
-        $sale->type = $request->type;
+        $sale->acctype = $request->acctype;
         $sale->date = $request->date;
 
 
@@ -93,7 +93,7 @@ class TomanSaleController extends Controller
 
         $toman->type = 2;
         $toman->partyid = $request->clientid;
-        $toman->acctype = $request->type;
+        $toman->acctype = $request->acctype;
         $toman->toman = $tomanammount;
         $toman->rate = $rate;
         $toman->amount = $total;

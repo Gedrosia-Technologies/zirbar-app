@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTomanPurchasesTable extends Migration
+class CreateTomanStockersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,14 +13,9 @@ class CreateTomanPurchasesTable extends Migration
      */
     public function up()
     {
-        Schema::create('toman_purchases', function (Blueprint $table) {
+        Schema::create('toman_stockers', function (Blueprint $table) {
             $table->id();
-            $table->integer('supplierid');
-            $table->integer('type');
-            $table->decimal('toman', 20, 2);
-            $table->decimal('rate', 20, 2);
-            $table->decimal('amount', 20, 2);
-            $table->date('date');
+            $table->string('name');
             $table->timestamps();
             $table->softDeletes();
         });
@@ -33,6 +28,6 @@ class CreateTomanPurchasesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('toman_purchases');
+        Schema::dropIfExists('toman_stockers');
     }
 }

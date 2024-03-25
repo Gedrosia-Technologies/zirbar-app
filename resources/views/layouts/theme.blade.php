@@ -99,9 +99,11 @@
                 <div id="collapseUtilities2" class="collapse" aria-labelledby="headingUtilities"
                     data-parent="#accordionSidebar" style="">
                     <div class="bg-white py-2 collapse-inner rounded">
+
                         <a class="collapse-item" href="/TomanAccounts">
                             <i class="fas fa-money-check-alt"></i>
                             <span>Toman Accounts</span></a>
+                            
                         <a class="collapse-item" href="/TomanSuppliers">
                             <i class="fas fa-money-check-alt"></i>
                             <span>Toman Suppliers</span></a>
@@ -109,6 +111,10 @@
                         <a class="collapse-item" href="/TomanClients">
                             <i class="fas fa-money-check-alt"></i>
                             <span>Toman Clients</span></a>
+
+                        <a class="collapse-item" href="/TomanStockers">
+                            <i class="fas fa-money-check-alt"></i>
+                            <span>Toman Stockers</span></a>
                     </div>
                 </div>
             </li>
@@ -357,7 +363,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Zirbar 2024 </span>
+                        <span>Copyright &copy; Majid Kalmati Filling Station 2022 </span>
                         <span>Developed By &#174;</span>
                         <a href="https://gedrosia.tech/" target="_blank" rel="noopener noreferrer">Gedrosia Technologies
                             SMC Pvt. Ltd.</a>

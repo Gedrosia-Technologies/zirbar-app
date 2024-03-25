@@ -16,7 +16,7 @@ class CreateTomanClientKantasTable extends Migration
         Schema::create('toman_client_kantas', function (Blueprint $table) {
             $table->id();
             $table->integer('clientid');
-            $table->integer('type');
+            $table->integer('type'); // 1 credit 2 is debit
             $table->decimal('amount', 20, 2);
             $table->string('note');
             $table->date('date');
