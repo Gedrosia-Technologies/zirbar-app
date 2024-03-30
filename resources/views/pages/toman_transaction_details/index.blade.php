@@ -45,7 +45,7 @@
                 </div>
                 <div class="form-group col-4">
                     <label for="amount">Toman amount</label>
-                    <input required type="number" id="amount" name="amount" placeholder="Enter Toman Amount" class="form-control">
+                    <input required type="number" id="amount" name="amount" min="0" placeholder="Enter Toman Amount" class="form-control">
                 </div>
                     <input id="ctn"  class="form-control" value="1" min="1" type="hidden" name="qty">
                 <input type="hidden" name="transactionid" value="{{$tomanTransaction->id}}">
@@ -55,12 +55,8 @@
     </div>
     <div class="col-3">
         <h6>Remaining Funds: {{number_format($remainingFunds)}} </h6>
-        @if($remainingFunds == 0)
-            <form class="submit mb-1" action="{{route('close_tomantransaction')}}" method="POST">
-                @csrf
-                <input type="hidden" name="transactionid" value="{{$tomanTransaction->id}}">
-                <button class="btn btn-warning submit">Make Close</button>
-            </form>
+        @if($remainingFunds == 0 && $tomanTransaction->isopen == 1)
+            <button class="btn btn-warning submit" data-toggle="modal" data-target="#closeTransactions" >Make Close</button>
         @endif
     </div>
 
@@ -141,13 +137,14 @@
                         </td>
                         <td>{{$data->amount}}</td>
 
-                        <td class="d-flex justify-content-around">
-
-                            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
-                                data-id="{{$data->id}}" data-resourseid="{{$data->sourceid}}"
-                                data-action="{{route('delete_tomantransactiondetail')}}"><i class="fa fa-trash"
-                                    aria-hidden="true"></i> Delete</button>
-                        </td>
+                        @if($tomanTransaction->isopen == 1)
+                            <td class="d-flex justify-content-around">
+                                    <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
+                                        data-id="{{$data->id}}" data-resourseid="{{$data->sourceid}}"
+                                        data-action="{{route('delete_tomantransactiondetail')}}"><i class="fa fa-trash"
+                                            aria-hidden="true"></i> Delete</button>
+                            </td>
+                        @endif
                     </tr>
                     @endforeach
                 </tbody>
@@ -258,11 +255,37 @@
         </div>
     </div>
 </div>
+{{--  --}}
+
+{{-- Transaction Close Confirmation Modal --}}
+<div class="modal fade" id="closeTransactions" tabindex="-1" role="dialog" aria-labelledby="closeTransactionsLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="closeTransactionsLabel">Are you sure you want to close Transaction</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" class="submit" action="{{ route('close_tomantransaction') }}">
+                    @csrf
+                    <input type="hidden" id="transactionid" name="transactionid" value="{{$tomanTransaction->id}}">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary submit">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
 
 
 
 <!-- Add Register Charges -->
-<div class="modal fade" id="addDiscountModal" tabindex="-1" role="dialog" aria-labelledby="addChargesModalLabel"
+{{-- <div class="modal fade" id="addDiscountModal" tabindex="-1" role="dialog" aria-labelledby="addChargesModalLabel"
     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -273,7 +296,7 @@
                 </button>
             </div>
             <div class="modal-body">
-                <form method="post" class="submit" action="{{ route('update_discount_amount') }}">
+                <form method="post" class="submit" action="{{ route('close_tomantransaction') }}">
                     @csrf
 
                     <div class="form-group">

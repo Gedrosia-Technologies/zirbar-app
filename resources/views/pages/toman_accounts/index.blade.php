@@ -3,12 +3,12 @@
 <div class="row">
 
     <div class="col-sm">
-        <h1><i class="fas fa-money-check-alt"></i> Toman Accounts Details</h1>
+        <h1><i class="fas fa-money-check-alt"></i> Toman Transactions</h1>
     </div>
 </div>
 <div class="row">
     <div class="col-7">
-        <form class="form form-inline" target="_blank" action="{{route('toman-accounts-print')}}" method="post">
+        <form class="form form-inline" target="_blank" action="{{route('toman-transactions-print')}}" method="post">
             @csrf
             From date: &nbsp;<input type="date" name="from_date" value="{{date('Y-m-d')}}" required
                 class="form-control">
@@ -19,7 +19,7 @@
         </form>
     </div>
     <div class="col-5">
-        <form class="form form-inline" action="{{route('toman-accounts-get-date')}}" method="post">
+        <form class="form form-inline" action="{{route('toman-transactions-get-date')}}" method="post">
             @csrf
             Goto Date: &nbsp;<input type="date" name="date" value="{{date('Y-m-d')}}" required class="form-control">
             &nbsp;
@@ -43,7 +43,7 @@
 <hr>
 
 <hr>
-<h3 class="text-center text-primary">Toman Stock</h3>
+<h3 class="text-center text-primary">Total Toman Stock</h3>
 <div class="row">
     <div class="col">
         <h5>Purchase : <span class="balance">{{number_format($tomanBalance['incoming'],2)}}</span></h5>
@@ -135,6 +135,12 @@
                         <td>{{number_format($row->amount)}}</td>
                         <td>
                             <a class="btn btn-success" href="/TomanTransactionDetails/{{$row->id}}">Details</a>
+
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
+                                data-id="{{$row->id}}"
+                                data-action="{{route('toman-transactions-delete')}}">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                            {{-- <button class="btn btn-danger" data-transactionid="{{$row->id}}" type="button" data-toggle="modal" data-target="#deleteConfirm">Delete</button> --}}
                         </td>
                     </tr>
                     @endforeach
@@ -290,6 +296,31 @@
     </div>
 </div>
 
+{{-- Transaction Delete Confirmation Modal --}}
+<div class="modal fade" id="deleteConfirm" tabindex="-1" role="dialog" aria-labelledby="deleteConfirmLabel"
+    aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="deleteConfirmLabel">Are you sure you want to Delete Transaction</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form method="post" class="submit" action="{{ route('close_tomantransaction') }}">
+                    @csrf
+                    <input type="hidden" id="transactionid" name="transactionid" value="">
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                <button type="submit" class="btn btn-primary submit">Close</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
 
 @endsection
 
@@ -298,6 +329,16 @@
 
 <!-- Add this script at the end of your HTML body or in a separate script file -->
 <script>
+
+    $('#deleteConfirm').on('show.bs.modal', function (event) {        
+        const transactionid = document.getElementById("transactionid")
+        console.log(event.target, transactionid)
+        // var productType = event.getAttribute('data-type');
+
+        // <input type="hidden" id="transactionid" name="transactionid" value="">
+
+    });
+
     document.addEventListener('DOMContentLoaded', function () {
         // Function to initialize currency formatting for a specific form
         function initializeCurrencyFormatting(formId, inputId, helpId) {
@@ -412,15 +453,6 @@
             // Update the ratehelp field with the formatted rounded total value
             rateHelp.textContent = 'Total Amount PKR: ' + formattedRoundedTotalValue;
         }
-
-
-
-
-
-
-
-
-
     });
 </script>
 

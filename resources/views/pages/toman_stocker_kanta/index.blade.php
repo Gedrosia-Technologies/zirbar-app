@@ -78,7 +78,7 @@
                         <th>Type</th>
                         <th>Amount</th>
                         @if(auth()->user()->isadmin)
-                        <th>Action</th>
+                        {{-- <th>Action</th> --}}
                         @endif
                     </tr>
                 </thead>
@@ -90,7 +90,7 @@
                         <th>Type</th>
                         <th>Amount</th>
                         @if(auth()->user()->isadmin)
-                        <th>Action</th>
+                        {{-- <th>Action</th> --}}
                         @endif
                     </tr>
                 </tfoot>
@@ -109,7 +109,7 @@
                             @endif
                         </td>
                         <td>{{number_format($data->amount,2)}}</td>
-                        @if(auth()->user()->isadmin)
+                        {{-- @if(auth()->user()->isadmin)
                         <td>                   
                             <form action="{{route('partykanta-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
                                 method="post">
@@ -118,7 +118,7 @@
                                 <button class="btn btn-danger submit">X</button>
                             </form>
                         </td>
-                        @endif
+                        @endif --}}
                     </tr>
                     @endforeach
                 </tbody>

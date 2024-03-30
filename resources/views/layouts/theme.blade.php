@@ -76,7 +76,7 @@
                     <span>Expenditures</span></a>
             </li>
             {{-- <li class="nav-item">
-                <a class="nav-link" href="/TomanAccounts">
+                <a class="nav-link" href="/TomanTransactions">
                     <i class="fas fa-money-bill"></i>
                     <span>Toman Accounts</span></a>
             </li>
@@ -91,7 +91,7 @@
                     <span>Toman Clients</span></a>
             </li> --}}
             <li class="nav-item">
-                <a class="nav-link collapsed" href="/TomanAccounts" data-toggle="collapse" data-target="#collapseUtilities2"
+                <a class="nav-link collapsed" href="/TomanTransactions" data-toggle="collapse" data-target="#collapseUtilities2"
                     aria-expanded="false" aria-controls="collapseUtilities2">
                     <i class="fas fa-money-check-alt"></i>
                     <span>Toman</span>
@@ -100,9 +100,9 @@
                     data-parent="#accordionSidebar" style="">
                     <div class="bg-white py-2 collapse-inner rounded">
 
-                        <a class="collapse-item" href="/TomanAccounts">
+                        <a class="collapse-item" href="/TomanTransactions">
                             <i class="fas fa-money-check-alt"></i>
-                            <span>Toman Accounts</span></a>
+                            <span>Toman Transactions</span></a>
                             
                         <a class="collapse-item" href="/TomanSuppliers">
                             <i class="fas fa-money-check-alt"></i>

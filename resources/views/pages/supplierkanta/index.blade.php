@@ -111,12 +111,17 @@
                         <td>{{number_format($data->amount,2)}}</td>
                         @if(auth()->user()->isadmin)
                         <td>                   
-                            <form action="{{route('partykanta-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
-                                method="post">
-                                @csrf
-                                <input type="hidden" value="{{$data->id}}" name="id">
-                                <button class="btn btn-danger submit">X</button>
-                            </form>
+                            @if($data->isbridged == 2)
+                            {{-- error here --}}
+                                <form action="{{route('partykanta-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
+                                    method="post">
+                                    @csrf
+                                    <input type="hidden" value="{{$data->id}}" name="id">
+                                        <button class="btn btn-danger submit">X</button>
+                                </form>
+                            @else
+                                    <button class="btn btn-danger disabled">X</button>
+                                @endif
                         </td>
                         @endif
                     </tr>

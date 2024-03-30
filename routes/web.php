@@ -144,16 +144,16 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/Partykanta/update', [Par
 
 
 //Toman Routes
-Route::middleware(['auth:sanctum', 'verified'])->get('/TomanAccounts', [TomanTransactionController::class, 'index']);
-Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/date', [TomanTransactionController::class, 'date'])->name('toman-accounts-get-date');
-Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/print', [TomanTransactionController::class, 'displayReport2'])->name('toman-accounts-print');
-Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/delete', [TomanTransactionController::class, 'destroy'])->name('toman-accounts-delete');
-Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/edit', [TomanTransactionController::class, 'edit'])->name('toman-accounts-edit');
-Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/update', [TomanTransactionController::class, 'update'])->name('toman-accounts-update');
-Route::middleware(['auth:sanctum', 'verified'])->post('/TomanAccounts/close', [TomanTransactionController::class, 'closeTransaction'])->name('close_tomantransaction');
+Route::middleware(['auth:sanctum', 'verified'])->get('/TomanTransactions', [TomanTransactionController::class, 'index']);
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanTransactions/date', [TomanTransactionController::class, 'date'])->name('toman-transactions-get-date');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanTransactions/print', [TomanTransactionController::class, 'displayReport2'])->name('toman-transactions-print');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanTransactions/delete', [TomanTransactionController::class, 'destroy'])->name('toman-transactions-delete');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanTransactions/edit', [TomanTransactionController::class, 'edit'])->name('toman-transactions-edit');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanTransactions/update', [TomanTransactionController::class, 'update'])->name('toman-transactions-update');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanTransactions/close', [TomanTransactionController::class, 'closeTransaction'])->name('close_tomantransaction');
 // Toman purchase and sell routes
-Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Purchase', [TomanTransactionController::class, 'store'])->name('toman_purchase');
-Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Sell', [TomanSaleController::class, 'store'])->name('toman_sell');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Purchase', [TomanTransactionController::class, 'storePurchase'])->name('toman_purchase');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Sell', [TomanTransactionController::class, 'storeSell'])->name('toman_sell');
 
 // Toman Transaction Detial Routes
 Route::middleware(['auth:sanctum', 'verified'])->get('/TomanTransactionDetails/{id}', [TomanTransactionDetailsController::class, 'index']);

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TomanTransactionDetails;
 use App\Http\Controllers\Controller;
+use App\Models\TomanStockerKanta;
 use App\Models\TomanTransaction;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
@@ -55,6 +56,7 @@ class TomanTransactionDetailsController extends Controller
         if($request->amount > $remainingFunds) {
             return Redirect::back()->with('danger', 'Remaining toman are '.$remainingFunds);
         }
+        
         $table = new TomanTransactionDetails();
         $table->transactionid = $request->transactionid;
         $table->stockerid = $request->stockerid;
@@ -62,6 +64,20 @@ class TomanTransactionDetailsController extends Controller
         $table->amount = $request->amount; // toman amount
         $table->date = $request->date; // toman amount
         $table->save();
+
+        // add to stocker kanta
+        $tomanStockerKanta = new TomanStockerKanta();
+        $tomanStockerKanta->type = $tomanTransaction->type; // 1 purchase 2 sell
+        $tomanStockerKanta->transactiondetailsid = $table->id;
+        $tomanStockerKanta->stockerid = $request->stockerid;
+        $tomanStockerKanta->amount = $request->amount;
+        if($tomanTransaction->type == 2) {
+            $tomanStockerKanta->note = "Toman Sold: '.$table->amount.' Toman'. 'Rate: '. $tomanTransaction->rate .' PKR';";
+        }else {
+            $tomanStockerKanta->note = "Toman Purchased: '.$table->amount.' Toman'. 'Rate: '. $tomanTransaction->rate .' PKR';";
+        }
+        $tomanStockerKanta->date = $request->date;
+        $tomanStockerKanta->save();
         return Redirect::back()->with('success', 'Toman Transaction Detail Added');
         
     }
@@ -109,7 +125,9 @@ class TomanTransactionDetailsController extends Controller
     public function destroy(Request $request)
     {
         $table = TomanTransactionDetails::find($request->id);
+        $tomanStockerKanta = TomanStockerKanta::where('transactiondetailsid', $request->id)->get();
         $table->delete();
+        $tomanStockerKanta[0]->delete();
         return Redirect::back()->with('danger', 'Detail Removed');
     }
 }
