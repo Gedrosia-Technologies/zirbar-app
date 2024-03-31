@@ -17,6 +17,7 @@ class CreateClientTomanBalancesTable extends Migration
             $table->id();
             $table->integer('clientid');
             $table->integer('type');
+            $table->integer('transactionid')->default(-1); // id is yes -1 is no
             $table->string('note');
             $table->decimal('amount', 20, 2);
             $table->date('date');

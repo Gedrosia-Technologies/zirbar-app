@@ -75,7 +75,7 @@ class TomanSupplierKantaController extends Controller
         $data = TomanSupplier::where('id', $id)->first();
         $data2 = TomanSupplierKanta::where('supplierid', $id)->get();
         //dd($data2);
-        return view('pages.supplierkanta.index', ['party' => $data, 'kanta' => $data2]);
+        return view('pages.tomansupplierkanta.index', ['party' => $data, 'kanta' => $data2]);
     }
 
     /**
@@ -107,8 +107,11 @@ class TomanSupplierKantaController extends Controller
      * @param  \App\Models\TomanSupplierKanta  $tomanSupplierKanta
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TomanSupplierKanta $tomanSupplierKanta)
+    public function destroy(Request $request)
     {
-        //
+         //
+         $data = TomanSupplierKanta::find($request->id);
+         $data->delete();
+         return Redirect::back()->with('danger', 'Record Deleted');
     }
 }

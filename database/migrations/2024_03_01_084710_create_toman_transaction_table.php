@@ -35,6 +35,6 @@ class CreateTomanTransactionTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tomen');
+        Schema::dropIfExists('toman_transactions');
     }
 }

@@ -70,6 +70,7 @@ class TomanTransactionDetailsController extends Controller
         $tomanStockerKanta->type = $tomanTransaction->type; // 1 purchase 2 sell
         $tomanStockerKanta->transactiondetailsid = $table->id;
         $tomanStockerKanta->stockerid = $request->stockerid;
+        $tomanStockerKanta->transactionid = $request->transactionid;
         $tomanStockerKanta->amount = $request->amount;
         if($tomanTransaction->type == 2) {
             $tomanStockerKanta->note = "Toman Sold: '.$table->amount.' Toman'. 'Rate: '. $tomanTransaction->rate .' PKR';";

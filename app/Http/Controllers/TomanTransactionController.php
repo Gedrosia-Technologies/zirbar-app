@@ -8,6 +8,7 @@ use App\Models\ClientTomanBalance;
 use App\Models\TomanClientKanta;
 use App\Models\TomanPurchase;
 use App\Models\TomanSale;
+use App\Models\TomanStockerKanta;
 use App\Models\TomanSupplierKanta;
 use App\Models\TomanTransactionDetails;
 use Illuminate\Http\Request;
@@ -53,7 +54,7 @@ class TomanTransactionController extends Controller
             'incoming' => $tomanIncoming
         ];
 
-        return view('pages.toman_accounts.index', ['data' => $data, 'pkrBalance' => $pkrBalance,'tomanBalance' => $tomanBalance ]);
+        return view('pages.toman_transactions.index', ['data' => $data, 'pkrBalance' => $pkrBalance,'tomanBalance' => $tomanBalance ]);
     }
 
     public function date(Request $request)
@@ -75,7 +76,7 @@ class TomanTransactionController extends Controller
         $balance = $pkrIncoming - $pkrOutgoing;
 
         $today = TomanTransaction::whereDate('date', date("Y-m-d", strtotime($request->date)))->get();
-        return view('pages.toman_accounts.date', ['view_date' => $request->date, 'data' => $today, 'balance' => $balance]);
+        return view('pages.toman_transactions.date', ['view_date' => $request->date, 'data' => $today, 'balance' => $balance]);
     }
 
     /**
@@ -188,14 +189,39 @@ class TomanTransactionController extends Controller
     public function destroy(Request $request)
     {
         //
-        $data = TomanTransaction::find($request->id);
+        $tomanTransaction = TomanTransaction::find($request->id);
         $tomanTransactionDetails = TomanTransactionDetails::where('transactionid', $request->id)->get();
+        $supplierKantaRecords = [];
+        $clientKantaRecords = [];
+        $clientTomanBalanceRecords = [];
+        $stockerKantaRecords = [];
+        // Delete purchase
+        $supplierKantaRecords = TomanSupplierKanta::where('transactionid', $request->id)->get();
+        // Delete Sale
+        $clientKantaRecords = TomanClientKanta::where('transactionid', $request->id)->get();
+        $clientTomanBalanceRecords = ClientTomanBalance::where('transactionid', $request->id)->get();
+        // Delete Stocker Records
+        $stockerKantaRecords = TomanStockerKanta::where('transactionid', $request->id)->get();
 
         foreach ($tomanTransactionDetails as $row) {
             $row->delete();
         }
 
-        $data->delete();
+        foreach ($supplierKantaRecords as $row) {
+            $row->delete();
+        }
+
+        foreach ($clientKantaRecords as $row) {
+            $row->delete();
+        }
+        foreach ($clientTomanBalanceRecords as $row) {
+            $row->delete();
+        }
+        foreach ($stockerKantaRecords as $row) {
+            $row->delete();
+        }
+
+        $tomanTransaction->delete();
         return redirect('/TomanTransactions')->with('danger', 'Record Delete');
 
     }
@@ -224,11 +250,11 @@ class TomanTransactionController extends Controller
         $data = TomanTransaction::whereBetween('date', [$fromDate, $toDate])->orderBy('date')->get();
         //$date = Carbon::now()->format('d/m/Y');
         // dd($data);
-        $pdf = PDF::loadView('pages.toman_accounts.print', compact('data', 'fromDate', 'toDate', 'balance'));
+        $pdf = PDF::loadView('pages.toman_transactions.print', compact('data', 'fromDate', 'toDate', 'balance'));
 
         $pdf->setPaper('A4', 'portrait');
         // $dompdf->set_base_path("/www/public/css/");
-        return $pdf->stream('Toman Accounts ' . $fromDate . ' to ' . $toDate . '.pdf');
+        return $pdf->stream('Toman Transactions ' . $fromDate . ' to ' . $toDate . '.pdf');
 
     }
 
@@ -239,7 +265,7 @@ class TomanTransactionController extends Controller
             // add to supplier kanta
             $kanta = new TomanSupplierKanta();
             $kanta->supplierid = $tomanTransaction->partyid;
-            $kanta->isbridged = 1; 
+            $kanta->transactionid = $tomanTransaction->id; 
             $kanta->amount = round($tomanTransaction->toman / $tomanTransaction->rate); 
             $kanta->type = 2; 
             $kanta->note = 'Toman Purchased: '.$tomanTransaction->toman.' Toman'. 'Rate: '. $tomanTransaction->rate .' PKR';
@@ -250,7 +276,7 @@ class TomanTransactionController extends Controller
                 // add to supplier kanta
                 $kanta = new TomanSupplierKanta();
                 $kanta->supplierid = $tomanTransaction->partyid;
-                $kanta->isbridged = 1; 
+                $kanta->transactionid = $tomanTransaction->id; 
                 $kanta->amount = round($tomanTransaction->toman / $tomanTransaction->rate); 
                 $kanta->type = 1;
                 $kanta->note = 'Paid for Toman Purchased: '.$tomanTransaction->toman.' Toman'. 'Rate: '. $tomanTransaction->rate .' PKR';
@@ -262,30 +288,18 @@ class TomanTransactionController extends Controller
         $toman_blance = new ClientTomanBalance();
         $toman_blance->clientid = $tomanTransaction->partyid;
         $toman_blance->type = 1;
+        $toman_blance->transactionid = $tomanTransaction->id; 
         $toman_blance->date = $tomanTransaction->date;
         $toman_blance->note = "Toman Purchased";
         $toman_blance->amount = $tomanTransaction->toman;
         $toman_blance->save();
-
-        
-        // $toman_blance_id = $toman_blance->id;
-        // //add in toman purchase        
-        // $sale = new TomanSale();
-        // $sale->partyid = $request->clientid;
-        // $sale->toman_balance_id = $toman_blance_id;
-        // $sale->toman = $tomanammount;
-        // $sale->rate = $rate;
-        // $sale->amount = $total; 
-        // $sale->acctype = $request->acctype;
-        // $sale->date = $request->date;
-
 
         // add to client kanta
         $kanta = new TomanClientKanta();
         $kanta->clientid = $tomanTransaction->partyid;;
         $kanta->amount = $tomanTransaction->amount; 
         $kanta->type = 2;
-        $kanta->isbridged = 1; 
+        $kanta->transactionid = $tomanTransaction->id; 
         $kanta->note = 'Toman Purchased: '.$tomanTransaction->amount.' Toman'. 'Rate: '. $tomanTransaction->rate .' PKR';
         $kanta->date = $tomanTransaction->date;
         $kanta->save();
@@ -295,7 +309,7 @@ class TomanTransactionController extends Controller
             $kanta = new TomanClientKanta();
             $kanta->clientid = $tomanTransaction->partyid;
             $kanta->amount = $tomanTransaction->amount; 
-            $kanta->isbridged = 1; 
+            $kanta->transactionid = $tomanTransaction->id; 
             $kanta->type = 1;
             $kanta->note = 'Paid for Toman Purchased: '.$tomanTransaction->amount.' Toman'. 'Rate: '. $tomanTransaction->rate .' PKR';
             $kanta->date = $tomanTransaction->date;

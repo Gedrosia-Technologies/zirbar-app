@@ -111,9 +111,9 @@
                         <td>{{number_format($data->amount,2)}}</td>
                         @if(auth()->user()->isadmin)
                         <td>                   
-                            @if($data->isbridged == 2)
+                            @if($data->transactionid == -1)
                             {{-- error here --}}
-                                <form action="{{route('partykanta-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
+                                <form action="{{route('supplierkanta-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
                                     method="post">
                                     @csrf
                                     <input type="hidden" value="{{$data->id}}" name="id">
@@ -121,7 +121,7 @@
                                 </form>
                             @else
                                     <button class="btn btn-danger disabled">X</button>
-                                @endif
+                            @endif
                         </td>
                         @endif
                     </tr>
@@ -164,15 +164,15 @@
                     <div class="form-group">
                         <label for="">Amount:</label>
                         <input type="text" name="amount" value="0" required class="amount-field form-control"
-                            placeholder="Amount">
+                        placeholder="Amount">
                         <small class="form-text text-center text-info"></small>
                     </div>
+                    
                     <div class="form-group">
                         <label for="">Note:</label>
                         <input type="text" name="title" required class="form-control" placeholder="Note">
                     </div>
-
-
+                    
 
 
                     <div class="form-group">
@@ -221,14 +221,14 @@
                         <input type="date" name="date" value="{{date('Y-m-d')}}" required class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="">Note:</label>
-                        <input type="text" name="title" required class="form-control" placeholder="Note">
-                    </div>
-                    <div class="form-group">
                         <label for="">Amount:</label>
                         <input type="text" name="amount" value="0" required class="amount-field form-control"
-                            placeholder="Amount">
+                        placeholder="Amount">
                         <small class="form-text text-center text-info"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Note:</label>
+                        <input type="text" name="title" required class="form-control" placeholder="Note">
                     </div>
 
 

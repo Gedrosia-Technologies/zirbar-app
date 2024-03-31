@@ -14,29 +14,34 @@
     ?>
 
 @endforeach
+<div class="bg-white p-3" style="box-shadow: 0px 0px 10px 1px rgb(194, 194, 194); border-radius: 20px">
+    <div class="row">
+        <div class="col-2">
+            <h6>Tomain Balance : <span class="balance">{{number_format($toman_balance,2)}}</span> </h6>
+            <a href="/ClientTomanBalance/{{$party->id}}"  class="btn btn-success">Toman Account</a>
+        </div>
+        <div class="col-10">
+            <form class="form form-inline submit"  action="{{route('clientkanta-toman-update')}}" method="post">
+                @csrf
+                <label for="">Toman Amount: </label> 
+                <input type="number" name="amount"  required class="form-control ml-2">
+                &nbsp;
+                <label for="">Type: </label> 
+                <select class="form-control ml-2" required name="type" id=""><option value="1">Credit</option><option value="2">Debit</option></select>
+                &nbsp;
+                <label for="">Note: </label> 
+                <input type="text" name="note" required class="form-control ml-2" placeholder="Note">
+                &nbsp;
+                <input type="hidden" name="partyid" value="{{$party->id}}">
+                &nbsp;
+                <button class="btn btn-success submit" type="submit">Submit</button>
 
-<div class="row">
-    <div class="col-2">
-        <h6>Tomain Balance : <span class="balance">{{number_format($toman_balance,2)}}</span> </h6>
-        <a href="/ClientTomanBalance/{{$party->id}}"  class="btn btn-success">Toman Account</a>
-    </div>
-    <div class="col-8">
-        <form class="form form-inline submit"  action="{{route('clientkanta-tomin-update')}}" method="post">
-            @csrf
-            Toman Amount: <input type="number" name="amount"  required class="form-control">
-            &nbsp;
-            Type : <select class="form-control" required name="type" id=""><option value="1">Credit</option><option value="2">Debit</option></select>
-            &nbsp;
-            Note : <input type="text" name="note" required class="form-control" placeholder="Note">
-            &nbsp;
-            <input type="hidden" name="partyid" value="{{$party->id}}">
-            &nbsp;
-            <button class="btn btn-success submit" type="submit">Submit</button>
-
-        </form>
+            </form>
+        </div>
     </div>
 </div>
 <br>
+
 <div class="row">
     <div class="col">
         <h3>Party Name : {{$party->name}}</h3>
@@ -134,12 +139,16 @@
                         <td>{{number_format($data->amount,2)}}</td>
                         @if(auth()->user()->isadmin)
                         <td>                   
-                            <form action="{{route('clientkanta-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
-                                method="post">
-                                @csrf
-                                <input type="hidden" value="{{$data->id}}" name="id">
-                                <button class="btn btn-danger submit">X</button>
-                            </form>
+                            @if($data->transactionid == -1)
+                                <form action="{{route('clientkanta-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
+                                    method="post">
+                                    @csrf
+                                    <input type="hidden" value="{{$data->id}}" name="id">
+                                    <button class="btn btn-danger submit">X</button>
+                                </form>
+                            @else
+                                    <button class="btn btn-danger disabled">X</button>
+                            @endif
                         </td>
                         @endif
                     </tr>
@@ -230,14 +239,14 @@
                         <input type="date" name="date" value="{{date('Y-m-d')}}" required class="form-control">
                     </div>
                     <div class="form-group">
-                        <label for="">Note:</label>
-                        <input type="text" name="title" required class="form-control" placeholder="Note">
-                    </div>
-                    <div class="form-group">
                         <label for="">Amount:</label>
                         <input type="text" name="amount" value="0" required class="amount-field form-control"
-                            placeholder="Amount">
+                        placeholder="Amount">
                         <small class="form-text text-center text-info"></small>
+                    </div>
+                    <div class="form-group">
+                        <label for="">Note:</label>
+                        <input type="text" name="title" required class="form-control" placeholder="Note">
                     </div>
 
 

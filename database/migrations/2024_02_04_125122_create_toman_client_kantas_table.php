@@ -17,7 +17,7 @@ class CreateTomanClientKantasTable extends Migration
             $table->id();
             $table->integer('clientid');
             $table->integer('type'); // 1 credit 2 is debit
-            $table->integer('isbridged')->default(2); // 1 is yes 2 is no
+            $table->integer('transactionid')->default(-1); // id is yes -1 is no
             $table->decimal('amount', 20, 2);
             $table->string('note');
             $table->date('date');

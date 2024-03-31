@@ -106,7 +106,7 @@ class TomanClientKantaController extends Controller
      * @param  \App\Models\TomanClientKanta  $tomanClientKanta
      * @return \Illuminate\Http\Response
      */
-    public function update_tomain_balance(Request $request)
+    public function update_toman_balance(Request $request)
     {
 
             $partykanta = new ClientTomanBalance;
