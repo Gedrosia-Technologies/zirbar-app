@@ -23,7 +23,7 @@
         <h3> Party ID Number : {{$party->id}}</h3>
     </div>
     <div class="col-md-12">
-        <form class="form form-inline" target="_blank" action="{{route('partykanta-print')}}" method="post">
+        <form class="form form-inline" target="_blank" action="{{route('supplierkanta_print')}}" method="post">
             @csrf
             From date: <input type="date" name="from_date" value="{{date('Y-m-d')}}" required class="form-control">
             &nbsp;

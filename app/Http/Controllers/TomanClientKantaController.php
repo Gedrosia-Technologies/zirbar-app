@@ -186,7 +186,7 @@ class TomanClientKantaController extends Controller
         // dd($data);
         $pdf = PDF::loadView('pages.tomanclientkanta.print', compact('data', 'fromDate', 'toDate', 'balance', 'partyname'));
 
-        $pdf->setPaper('A4', 'landscape');
+        $pdf->setPaper('A4', 'portrait');
         // $dompdf->set_base_path("/www/public/css/");
         return $pdf->stream('Toman Client Kanta (' . $partyname . ') ' . $fromDate . ' to ' . $toDate . '.pdf');
 

@@ -6,8 +6,10 @@ use App\Models\TomanTransactionDetails;
 use App\Http\Controllers\Controller;
 use App\Models\TomanStockerKanta;
 use App\Models\TomanTransaction;
+use Hamcrest\Type\IsObject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use PDF;
 
 class TomanTransactionDetailsController extends Controller
 {
@@ -131,4 +133,19 @@ class TomanTransactionDetailsController extends Controller
         $tomanStockerKanta[0]->delete();
         return Redirect::back()->with('danger', 'Detail Removed');
     }
+
+    
+    public function displayReport2(Request $request)
+    {
+
+        $transaction = TomanTransaction::find($request->transactionid);
+        $data = TomanTransactionDetails::where('transactionid', $request->transactionid)->get();
+        $pdf = PDF::loadView('pages.toman_transaction_details.print', compact('data', 'transaction'));
+
+        $pdf->setPaper('A4', 'portrait');
+        // $dompdf->set_base_path("/www/public/css/");
+        return $pdf->stream('Toman Transaction ' .$request->id.' .pdf');
+    }
+
+
 }

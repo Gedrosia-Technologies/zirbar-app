@@ -117,10 +117,10 @@
                         <td>
                             @if($row->type == 1)
                                 <?php $party =  \App\Models\TomanSupplier::where('id', $row->partyid)->first(); ?>
-                                {{ (is_object($party) && $party->num_rows >0) ? $party->name : "Unknown" }}
+                                {{ (is_object($party)) ? $party->name : "Unknown" }}
                             @elseif($row->type == 2)
                                 <?php $party =  \App\Models\TomanClient::where('id', $row->partyid)->first(); ?>
-                                {{ (is_object($party) && $party->num_rows >0) ? $party->name : "Unknown" }}
+                                {{ (is_object($party)) ? $party->name : "Unknown" }}
                             @endif
                         </td>
                         <td>

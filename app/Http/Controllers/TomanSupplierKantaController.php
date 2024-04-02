@@ -7,6 +7,7 @@ use App\Http\Controllers\Controller;
 use App\Models\TomanSupplier;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
+use PDF;
 
 class TomanSupplierKantaController extends Controller
 {
@@ -100,5 +101,37 @@ class TomanSupplierKantaController extends Controller
          $data = TomanSupplierKanta::find($request->id);
          $data->delete();
          return Redirect::back()->with('danger', 'Record Deleted');
+    }
+    
+    public function displayReport2(Request $request)
+    {
+        $fromDate = $request->input('from_date');
+        $toDate = $request->input('to_date');
+        // $data = Roznamcha::select(['*']) // Do some querying..
+        // ->whereBetween('date', [$fromDate, $toDate])->get();
+        $yesterday = date("Y-m-d", strtotime($fromDate . '-1 days'));
+        $data_yesterday = TomanSupplierKanta::whereDate('date', '>', '2000-01-01')->whereDate('date', '<=', $yesterday)->get();
+        $pkrIncoming = 0;
+        $pkrOutgoing = 0;
+        foreach ($data_yesterday as $row) {
+            if ($row->type == 1) {
+                $pkrOutgoing += $row->amount;
+            }
+            if ($row->type == 2) {
+                $pkrIncoming += $row->amount;
+            }
+        }
+
+        $balance = $pkrOutgoing - $pkrIncoming;
+        $data = TomanSupplierKanta::whereBetween('date', [$fromDate, $toDate])->orderBy('date')->get();
+        $partyname = $request->partyname;
+        //$date = Carbon::now()->format('d/m/Y');
+        // dd($data);
+        $pdf = PDF::loadView('pages.tomansupplierkanta.print', compact('data', 'fromDate', 'toDate', 'balance', 'partyname'));
+
+        $pdf->setPaper('A4', 'portrait');
+        // $dompdf->set_base_path("/www/public/css/");
+        return $pdf->stream('Toman Transactions ' . $fromDate . ' to ' . $toDate . '.pdf');
+
     }
 }

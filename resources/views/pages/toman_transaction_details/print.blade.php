@@ -5,7 +5,7 @@
   <meta charset="UTF-8">
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Toman Transactions Print</title>
+  <title>Toman Transactions Details Print</title>
   <style>
     .clearfix:after {
       content: "";
@@ -98,7 +98,6 @@
     table th {
       padding: 5px 20px;
       color: #5D6975;
-      text-align: center
       border-bottom: 1px solid #C1CED9;
       white-space: nowrap;
       font-weight: normal;
@@ -151,30 +150,30 @@
 
 <body>
   <?php
-$total_incoming = 0;
-$total_outgoing = 0;
+// $total_incoming = 0;
+// $total_outgoing = 0;
 $count = 0;
 ?>
-  @foreach($data as $row)
+  {{-- @foreach($data as $row) --}}
 
-  @if($row->type == 1)
+  {{-- @if($row->type == 1) --}}
   <?php
-        $total_outgoing += $row->amount;
+        // $total_incoming += $row->amount;
         ?>
-  @endif
-  @if($row->type == 2)
+  {{-- @endif --}}
+  {{-- @if($row->type == 2) --}}
   <?php
-        $total_incoming  += $row->amount;
+        // $total_outgoing += $row->amount;
         ?>
-  @endif
+  {{-- @endif --}}
 
 
-  @endforeach
+  {{-- @endforeach --}}
   <?php
-$cal_balance = $balance;
+// $cal_balance = $balance;
 ?>
 
-  <h1>Toman Transactions Report</h1>
+  <h1>Toman Transactions Details Report</h1>
   <!-- <header class="clearfix">
      
        <div id="company" class="clearfix">
@@ -184,7 +183,7 @@ $cal_balance = $balance;
         <div><a href="mailto:company@example.com">company@example.com</a></div> 
       </div>
       <div id="project">
-        <div><span>Date:</span> {{$fromDate}} TO {{$toDate}}</div>
+        {{-- <div><span>Date:</span> {{$fromDate}} TO {{$toDate}}</div> --}}
          <div><span>CLIENT</span> John Doe</div>
         <div><span>ADDRESS</span> 796 Silver Harbour, TX 79273, US</div>
         <div><span>EMAIL</span> <a href="mailto:john@example.com">john@example.com</a></div>
@@ -192,10 +191,6 @@ $cal_balance = $balance;
         <div><span>DUE DATE</span> September 17, 2015</div> 
       </div> 
     </header> -->
-  <div><span>Date:</span> {{date('d-m-y',strtotime($fromDate))}} TO {{date('d-m-y',strtotime($toDate))}}</div>
-  <div style="float:right; margin-top:-25px">
-    <h3> <span>Previouse Balance:</span> {{number_format($balance)}}</h3>
-  </div>
   <hr>
   <main>
     <table>
@@ -204,10 +199,7 @@ $cal_balance = $balance;
           <th>Date</th>
           <th>Type</th>
           <th>Party</th>
-          <th>Account Type</th>
           <th>Toman</th>
-          <th>Rate</th>
-          <th>Amount PKR</th>
         </tr>
       </thead>
       <tbody>
@@ -228,35 +220,20 @@ $cal_balance = $balance;
         </td>
         <td>
             @if($row->type == 1)
-                <?php $party =  \App\Models\TomanSupplier::where('id', $row->partyid)->first(); ?>
-                {{ (is_object($party)) ? $party->name : "Unknown" }}                
-            @elseif($row->type == 2)
-                <?php $party =  \App\Models\TomanClient::where('id', $row->partyid)->first(); ?>
-                {{ (is_object($party)) ? $party->name : "Unknown" }}
-                @endif
+                <?php $stocker =  \App\Models\TomanStocker::where('id', $row->stockerid)->first(); ?>
+                {{ (is_object($stocker)) ? $stocker->name : "Unknown" }}                
+            @endif
         </td>
-      <td>
-          @if($row->acctype == 1)
-          <span class="badge badge-success">Credit</span>
-          @elseif($row->acctype == 2)
-          <span class="badge badge-warning">Debit</span>
-          @endif
-      </td>
-      <td>{{number_format($row->toman)}}</td>
-      <td>{{number_format($row->rate)}}</td>
       <td>{{number_format($row->amount)}}</td>
 
         </tr>
         @endforeach
-        <br>
+
         <tr>
           <td class="service"><b> Grand Total</b></td>
-          <td class="desc"></td>
-          <td class="total"><b>{{number_format($total_incoming)}}</b></td>
-          <td class="desc"></td>
-          <td class="total"><b>{{number_format($total_outgoing)}}</b></td>
-          <td class="desc"></td>
-          <td class="total"><b>{{ number_format($total_incoming - $total_outgoing)}}</b></td>
+          <td class="total">Toman Purchased: <b>{{number_format($transaction->toman)}}</b></td>
+          <td class="total">PKR Spent: <b>{{number_format($transaction->amount)}}</b></td>
+          <td class="total">Rate: <b>{{ number_format($transaction->rate)}}</b></td>
         </tr>
       </tbody>
     </table>

@@ -159,6 +159,7 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/Toman/Sell', [TomanTrans
 Route::middleware(['auth:sanctum', 'verified'])->get('/TomanTransactionDetails/{id}', [TomanTransactionDetailsController::class, 'index']);
 Route::middleware(['auth:sanctum', 'verified'])->post('/TomanTransactionDetails/add', [TomanTransactionDetailsController::class, 'store'])->name('add_tomantransactiondetail');
 Route::middleware(['auth:sanctum', 'verified'])->post('/TomanTransactionDetails/delete', [TomanTransactionDetailsController::class, 'destroy'])->name('delete_tomantransactiondetail');
+Route::middleware(['auth:sanctum', 'verified'])->post('/TomanTransactionDetails/print', [TomanTransactionDetailsController::class, 'displayReport2'])->name('toman_transactions_details_print');
 
 
 //Toman Supplier
@@ -175,7 +176,7 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/TomanClients/delete', [T
 //Toman Supplier Kanta Routes
 Route::middleware(['auth:sanctum', 'verified'])->get('/SupplierKanta/{id}', [TomanSupplierKantaController::class, 'show']);
 Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/create', [TomanSupplierKantaController::class, 'store'])->name('add-supplierkanta');
-Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/print', [TomanSupplierKantaController::class, 'displayReport2'])->name('supplierkanta-print');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/print', [TomanSupplierKantaController::class, 'displayReport2'])->name('supplierkanta_print');
 Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/delete', [TomanSupplierKantaController::class, 'destroy'])->name('supplierkanta-delete');
 Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/edit', [TomanSupplierKantaController::class, 'edit'])->name('supplierkanta-edit');
 Route::middleware(['auth:sanctum', 'verified'])->post('/Supplierkanta/update', [TomanSupplierKantaController::class, 'update'])->name('supplierkanta-update');

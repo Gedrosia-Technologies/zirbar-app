@@ -19,7 +19,7 @@
         <h6>PKR Amount: {{number_format($tomanTransaction->amount)}} </h6>
         <h6>Toman Amount: {{number_format($tomanTransaction->toman)}} </h6>
         <h6>Rate: {{number_format($tomanTransaction->rate)}} </h6>
-        <h6>Party: {{(is_object($party) && $party->num_rows >0) ? $party->name : "Unknown"}} </h6>
+        <h6>Party: {{(is_object($party)) ? $party->name : "Unknown"}} </h6>
     </div>
 
     <div class="col-6">
@@ -56,7 +56,14 @@
     <div class="col-3">
         <h6>Remaining Funds: {{number_format($remainingFunds)}} </h6>
         @if($remainingFunds == 0 && $tomanTransaction->isopen == 1)
-            <button class="btn btn-warning submit" data-toggle="modal" data-target="#closeTransactions" >Make Close</button>
+        <button class="btn btn-warning submit" data-toggle="modal" data-target="#closeTransactions" >Make Close</button>
+        @endif
+        @if($tomanTransaction->isopen == 0)
+            <form class="form form-inline" target="_blank" action="{{route('toman_transactions_details_print')}}" method="post">
+                @csrf
+                <input type="hidden" name="transactionid" value="{{$tomanTransaction->id}}">
+                <button class="btn btn-danger" type="submit">Print</button>
+            </form>
         @endif
     </div>
 
@@ -126,7 +133,7 @@
                         <td>{{$data->id}}</td>
                         <td>
                             <?php $stocker = \App\Models\TomanStocker::find($data->stockerid);?>
-                            {{(is_object($stocker) && $stocker->num_rows >0) ? $stocker->name : "Unknown"}}
+                            {{(is_object($stocker)) ? $stocker->name : "Unknown"}}
                         </td>
                         <td>
                         @if($data->type == 1)
