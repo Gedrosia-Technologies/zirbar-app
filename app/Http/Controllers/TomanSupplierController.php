@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\TomanSupplier;
 use App\Http\Controllers\Controller;
+use App\Models\TomanSupplierKanta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -81,14 +82,30 @@ class TomanSupplierController extends Controller
         //
     }
 
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\TomanSupplier  $tomanSupplier
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(TomanSupplier $tomanSupplier)
+ 
+    public function destroy(Request $request)
     {
-        //
+         //
+         $data = TomanSupplier::find($request->id);
+         $kanta = TomanSupplierKanta::where('supplierid', $request->id)->get();
+        //  $balance = 0;
+        //  foreach ($kanta as $record) {
+
+        //     if($record->type == 1) {
+        //         $balance += $record->amount;
+        //     }
+        //     else {
+        //         $balance -= $record->amount ;
+        //     }
+        //  }
+        //  if($balance > 0) {
+        //     return Redirect::back()->with('danger', 'Record can not deleted. Because Stocker still holds Balance.');
+        // }else {
+            $data->delete();
+            foreach ($kanta as $record) {
+                $record->delete();
+            }
+        // }
+         return Redirect::back()->with('danger', 'Record Deleted');
     }
 }

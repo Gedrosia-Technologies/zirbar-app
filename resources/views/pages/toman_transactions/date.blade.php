@@ -66,13 +66,13 @@ $balancetom = 0;
         </form>
     </div>
     <div class="col-5">
-        <form class="form form-inline" action="{{route('roznamcha-get-date')}}" method="post">
+        <form class="form form-inline" action="{{route('toman-transactions-get-date')}}" method="post">
             @csrf
             Goto Date: &nbsp;<input type="date" name="date" value="{{date('Y-m-d')}}" required class="form-control">
             &nbsp;
             <button class="btn btn-warning" type="submit">Fetch</button>
         </form>
-        <a href="/TomanAccounts" class="btn btn-danger">Reset Date</a>
+        <a href="/TomanTransactions" class="btn btn-danger">Reset Date</a>
     </div>
 </div>
 <hr>

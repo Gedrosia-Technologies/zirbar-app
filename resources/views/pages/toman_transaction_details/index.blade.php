@@ -19,7 +19,7 @@
         <h6>PKR Amount: {{number_format($tomanTransaction->amount)}} </h6>
         <h6>Toman Amount: {{number_format($tomanTransaction->toman)}} </h6>
         <h6>Rate: {{number_format($tomanTransaction->rate)}} </h6>
-        <h6>Party: {{$party->name}} </h6>
+        <h6>Party: {{(is_object($party) && $party->num_rows >0) ? $party->name : "Unknown"}} </h6>
     </div>
 
     <div class="col-6">
@@ -126,7 +126,7 @@
                         <td>{{$data->id}}</td>
                         <td>
                             <?php $stocker = \App\Models\TomanStocker::find($data->stockerid);?>
-                            {{$stocker->name}}
+                            {{(is_object($stocker) && $stocker->num_rows >0) ? $stocker->name : "Unknown"}}
                         </td>
                         <td>
                         @if($data->type == 1)

@@ -112,7 +112,6 @@
                         @if(auth()->user()->isadmin)
                         <td>                   
                             @if($data->transactionid == -1)
-                            {{-- error here --}}
                                 <form action="{{route('supplierkanta-delete')}}" onsubmit="check('Delete')" class='form-inline submit'
                                     method="post">
                                     @csrf
@@ -163,7 +162,7 @@
 
                     <div class="form-group">
                         <label for="">Amount:</label>
-                        <input type="text" name="amount" value="0" required class="amount-field form-control"
+                        <input type="text" name="amount" min="0" value="0" required class="amount-field form-control"
                         placeholder="Amount">
                         <small class="form-text text-center text-info"></small>
                     </div>
@@ -222,7 +221,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Amount:</label>
-                        <input type="text" name="amount" value="0" required class="amount-field form-control"
+                        <input type="text" name="amount" min="0" value="0" required class="amount-field form-control"
                         placeholder="Amount">
                         <small class="form-text text-center text-info"></small>
                     </div>

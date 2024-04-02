@@ -24,7 +24,7 @@
             <form class="form form-inline submit"  action="{{route('clientkanta-toman-update')}}" method="post">
                 @csrf
                 <label for="">Toman Amount: </label> 
-                <input type="number" name="amount"  required class="form-control ml-2">
+                <input type="number" name="amount" min="0"  required class="form-control ml-2">
                 &nbsp;
                 <label for="">Type: </label> 
                 <select class="form-control ml-2" required name="type" id=""><option value="1">Credit</option><option value="2">Debit</option></select>
@@ -188,7 +188,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Amount:</label>
-                        <input type="text" name="amount" value="0" required class="amount-field form-control"
+                        <input type="text" name="amount" min="0" value="0" required class="amount-field form-control"
                             placeholder="Amount">
                         <small class="form-text text-center text-info"></small>
                     </div>
@@ -240,7 +240,7 @@
                     </div>
                     <div class="form-group">
                         <label for="">Amount:</label>
-                        <input type="text" name="amount" value="0" required class="amount-field form-control"
+                        <input type="text" name="amount" min="0" value="0" required class="amount-field form-control"
                         placeholder="Amount">
                         <small class="form-text text-center text-info"></small>
                     </div>

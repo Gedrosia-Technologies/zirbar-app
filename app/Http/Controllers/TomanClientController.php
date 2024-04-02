@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\TomanClient;
 use App\Http\Controllers\Controller;
+use App\Models\ClientTomanBalance;
+use App\Models\TomanClientKanta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 
@@ -86,8 +88,34 @@ class TomanClientController extends Controller
      * @param  \App\Models\TomanClient  $tomanClient
      * @return \Illuminate\Http\Response
      */
-    public function destroy(TomanClient $tomanClient)
-    {
-        //
-    }
+   
+     public function destroy(Request $request)
+     {
+          //
+          $data = TomanClient::find($request->id);
+          $kanta = TomanClientKanta::where('clientid', $request->id)->get();
+          $tomanKanta = ClientTomanBalance::where('clientid', $request->id)->get();
+         //  $balance = 0;
+         //  foreach ($kanta as $record) {
+ 
+         //     if($record->type == 1) {
+         //         $balance += $record->amount;
+         //     }
+         //     else {
+         //         $balance -= $record->amount ;
+         //     }
+         //  }
+         //  if($balance > 0) {
+         //     return Redirect::back()->with('danger', 'Record can not deleted. Because Stocker still holds Balance.');
+         // }else {
+             $data->delete();
+             foreach ($kanta as $record) {
+                 $record->delete();
+             }
+             foreach ($tomanKanta as $record) {
+                 $record->delete();
+             }
+         // }
+          return Redirect::back()->with('danger', 'Record Deleted');
+     }
 }

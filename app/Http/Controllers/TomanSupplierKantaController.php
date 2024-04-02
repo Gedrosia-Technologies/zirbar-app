@@ -40,7 +40,6 @@ class TomanSupplierKantaController extends Controller
     public function store(Request $request)
     {
 
-        if ($request->type == 1) {
             $partykanta = new TomanSupplierKanta();
             $partykanta->note = $request->input('title');
             $partykanta->supplierid = $request->partyid;
@@ -48,18 +47,6 @@ class TomanSupplierKantaController extends Controller
             $partykanta->date = $request->date;
             $partykanta->amount = $request->amount;
             $partykanta->save();
-
-        }
-        //debit
-        if ($request->type == 2) {
-            $partykanta = new TomanSupplierKanta;
-            $partykanta->note = $request->input('title');
-            $partykanta->supplierid = $request->partyid;
-            $partykanta->type = $request->type;
-            $partykanta->date = $request->date;
-            $partykanta->amount = $request->amount;
-            $partykanta->save();
-        }
 
         return Redirect::back()->with('success', 'Record added ');
     }

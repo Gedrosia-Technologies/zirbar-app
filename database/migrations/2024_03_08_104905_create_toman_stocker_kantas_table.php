@@ -16,7 +16,7 @@ class CreateTomanStockerKantasTable extends Migration
         Schema::create('toman_stocker_kantas', function (Blueprint $table) {
             $table->id();
             $table->integer('stockerid');
-            $table->integer('transactiondetailsid');
+            $table->integer('transactiondetailsid')->default(-1); // -1 = it is not a part of any transaction  
             $table->integer('transactionid')->default(-1); // id is yes -1 is no
             $table->integer('type'); // 1 is purchase 2 is sell
             $table->decimal('amount', 20, 2);

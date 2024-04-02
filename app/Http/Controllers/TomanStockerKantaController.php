@@ -79,4 +79,12 @@ class TomanStockerKantaController extends Controller
         return $pdf->stream('Toman Stocker Kanta (' . $partyname . ') ' . $fromDate . ' to ' . $toDate . '.pdf');
 
     }
+
+    public function destroy(Request $request)
+    {
+         //
+         $data = TomanStockerKanta::find($request->id);
+         $data->delete();
+         return Redirect::back()->with('danger', 'Record Deleted');
+    }
 }

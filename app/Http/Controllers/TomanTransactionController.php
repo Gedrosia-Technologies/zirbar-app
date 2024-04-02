@@ -44,7 +44,7 @@ class TomanTransactionController extends Controller
             }
         }
         $pkrBalance = [
-            'balance' => $pkrIncoming - $pkrOutgoing, 
+            'balance' => $pkrOutgoing - $pkrIncoming, 
             'outgoing' => $pkrOutgoing,
             'incoming' => $pkrIncoming
         ];

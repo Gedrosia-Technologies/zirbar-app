@@ -54,7 +54,15 @@
                     <tr>
                         <td>{{$data->id}}</td>
                         <td>{{$data->name}}</td>
-                        <td><a class="btn btn-success" href="/Stockerkanta/{{$data->id}}">Khanta</a></td>
+                        <td class="col-3">
+                            <a class="btn btn-success" href="/Stockerkanta/{{$data->id}}">Khanta</a>
+                            @if(auth()->user()->isadmin)
+                            <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
+                                data-id="{{$data->id}}"
+                                data-action="{{route('delete_toman_stocker')}}">
+                                    <i class="fa fa-trash" aria-hidden="true"></i> Delete</button>
+                            @endif
+                        </td>
                     </tr>
                     @endforeach
                 </tbody>
