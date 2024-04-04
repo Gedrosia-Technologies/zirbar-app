@@ -6,6 +6,8 @@ use App\Models\TomanClient;
 use App\Models\TomanClientKanta;
 use App\Models\ClientTomanBalance;
 use App\Http\Controllers\Controller;
+use App\Models\TomanSupplier;
+use App\Models\TomanSupplierKanta;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
 use PDF;
@@ -41,15 +43,28 @@ class TomanClientKantaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        // credit
         if ($request->type == 1) {
             $partykanta = new TomanClientKanta;
             $partykanta->note = $request->input('title');
             $partykanta->clientid = $request->partyid;
+            $partykanta->transactionid = $request->supplierid;
             $partykanta->type = $request->type;
             $partykanta->date = $request->date;
             $partykanta->amount = $request->amount;
             $partykanta->save();
+
+            $data = TomanSupplier::find($request->supplierid);
+            if(is_object($data)) {
+                $newkanta = new TomanSupplierKanta();
+                $newkanta->note = $request->input('title');
+                $newkanta->supplierid = $request->supplierid;
+                $newkanta->type = $request->type;
+                $newkanta->transactionid = $partykanta->id;
+                $newkanta->date = $request->date;
+                $newkanta->amount = $request->amount;
+                $newkanta->save();
+            }
 
         }
         //debit
@@ -86,7 +101,7 @@ class TomanClientKantaController extends Controller
         }
         $data = TomanClient::where('id', $id)->first();
         $data2 = TomanClientKanta::where('clientid', $id)->get();
-        //dd($data2);
+        // dd($data2);
         return view('pages.tomanclientkanta.index', ['party' => $data, 'kanta' => $data2,'toman_balance'=>$toman_balance ]);
     }
 

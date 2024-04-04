@@ -64,6 +64,7 @@ class TomanTransactionDetailsController extends Controller
         $table->stockerid = $request->stockerid;
         $table->type = $tomanTransaction->type; // 1 purchased 2 sell
         $table->amount = $request->amount; // toman amount
+        $table->note = $request->note; // toman amount
         $table->date = $request->date; // toman amount
         $table->save();
 

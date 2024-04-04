@@ -187,6 +187,21 @@
                         <input type="date" name="date" value="{{date('Y-m-d')}}" required class="form-control">
                     </div>
                     <div class="form-group">
+                        <label for="supplierid">Supplier:</label>
+                        <select id="supplierid" name="supplierid" required data-live-search="true"  class="form-control selectpicker">
+                            <option value="">-----Please Select Supplier------</option>
+                            <option value="-1">None</option>
+                            <?php 
+                            $supplier = App\Models\TomanSupplier::all();
+                             ?>
+                            @foreach($supplier as $row)
+                            <option value="{{$row->id}}" data-counter="{{$row->id}}">
+                                {{$row->name}}
+                            </option>
+                            @endforeach
+                        </select>
+                    </div>
+                    <div class="form-group">
                         <label for="">Amount:</label>
                         <input type="text" name="amount" min="0" value="0" required class="amount-field form-control"
                             placeholder="Amount">

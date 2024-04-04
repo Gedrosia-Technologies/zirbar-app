@@ -43,6 +43,14 @@
                         @endforeach
                     </select>
                 </div>
+                @if($tomanTransaction->type == 2)
+                    <div class="form-group col-4">
+                        <label for="note">Note: </label>
+                        <input type="text" id="note" name="note" placeholder="Type Note" class="form-control">
+                    </div>
+                @else
+                    <input type="hidden" name="note" value="" class="form-control">
+                @endif
                 <div class="form-group col-4">
                     <label for="amount">Toman amount</label>
                     <input required type="number" id="amount" name="amount" min="0" placeholder="Enter Toman Amount" class="form-control">
@@ -111,6 +119,9 @@
                     <tr>
                         <th>ID</th>
                         <th>Stocker Name</th>
+                        @if ($tomanTransaction->type == 2)
+                            <th>Note</th>
+                        @endif
                         <th>Type</th>
                         <th>Amount</th>
                         <th>Action</th>
@@ -120,6 +131,9 @@
                     <tr>
                         <th>ID</th>
                         <th>Stocker Name</th>
+                        @if ($tomanTransaction->type == 2)
+                            <th>Note</th>
+                        @endif
                         <th>Type</th>
                         <th>Amount</th>
                         <th>Action</th>
@@ -135,6 +149,9 @@
                             <?php $stocker = \App\Models\TomanStocker::find($data->stockerid);?>
                             {{(is_object($stocker)) ? $stocker->name : "Unknown"}}
                         </td>
+                        @if ($tomanTransaction->type == 2)
+                            <td>{{$data->note}}</td>
+                        @endif
                         <td>
                         @if($data->type == 1)
                             <span class="badge badge-success">Purchase</span>

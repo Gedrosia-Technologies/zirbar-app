@@ -19,6 +19,7 @@ class CreateTomanTransactionDetailsTable extends Migration
             $table->integer('stockerid');
             $table->integer('type'); // 1 purchased 2 sell
             $table->decimal('amount', 20, 2); // toman amount
+            $table->string('note')->nullable();
             $table->date('date');
             $table->timestamps();
             $table->softDeletes();

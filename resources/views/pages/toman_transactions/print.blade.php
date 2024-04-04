@@ -156,16 +156,17 @@ $total_outgoing = 0;
 $count = 0;
 ?>
   @foreach($data as $row)
-
-  @if($row->type == 1)
-  <?php
-        $total_outgoing += $row->amount;
-        ?>
-  @endif
-  @if($row->type == 2)
-  <?php
-        $total_incoming  += $row->amount;
-        ?>
+  @if(!$row->isopen)
+    @if($row->type == 1)
+    <?php
+          $total_outgoing += $row->amount;
+          ?>
+    @endif
+    @if($row->type == 2)
+    <?php
+          $total_incoming  += $row->amount;
+          ?>
+    @endif
   @endif
 
 

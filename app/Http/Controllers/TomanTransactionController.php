@@ -44,7 +44,7 @@ class TomanTransactionController extends Controller
             }
         }
         $pkrBalance = [
-            'balance' => $pkrOutgoing - $pkrIncoming, 
+            'balance' => $pkrIncoming - $pkrOutgoing, 
             'outgoing' => $pkrOutgoing,
             'incoming' => $pkrIncoming
         ];
@@ -238,15 +238,17 @@ class TomanTransactionController extends Controller
         $pkrIncoming = 0;
         $pkrOutgoing = 0;
         foreach ($data_yesterday as $row) {
-            if ($row->type == 1) {
-                $pkrOutgoing += $row->amount;
-            }
-            if ($row->type == 2) {
-                $pkrIncoming += $row->amount;
+            if(!$row->isopen) {
+                if ($row->type == 1) {
+                    $pkrOutgoing += $row->amount;
+                }
+                if ($row->type == 2) {
+                    $pkrIncoming += $row->amount;
+                }
             }
         }
 
-        $balance = $pkrOutgoing - $pkrIncoming;
+        $balance = $pkrIncoming - $pkrOutgoing;
         $data = TomanTransaction::whereBetween('date', [$fromDate, $toDate])->orderBy('date')->get();
         //$date = Carbon::now()->format('d/m/Y');
         // dd($data);
