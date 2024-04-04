@@ -31,13 +31,13 @@
 <h3 class="text-center text-primary">Accounts PKR</h3>
 <div class="row">
     <div class="col">
-        <h5>Spent : <span class="balance">{{number_format($pkrBalance['outgoing'],2)}}</span></h5>
+        <h5>Outgoing : <span class="balance">{{number_format($pkrBalance['outgoing'],2)}}</span></h5>
     </div>
     <div class="col">
-        <h5>Earned : <span class="balance">{{number_format($pkrBalance['incoming'],2)}}</span></h5>
+        <h5>Incoming : <span class="balance">{{number_format($pkrBalance['incoming'],2)}}</span></h5>
     </div>
     <div class="col">
-        <h5>Balance : <span class="balance">{{number_format($pkrBalance['balance'],2)}}</span></h5>
+        <h5>Profit : <span class="balance">{{number_format($pkrBalance['balance'],2)}}</span></h5>
     </div>
 </div>
 <hr>

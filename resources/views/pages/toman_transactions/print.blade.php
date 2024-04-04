@@ -253,11 +253,11 @@ $cal_balance = $balance;
         <tr>
           <td class="service"><b> Grand Total</b></td>
           <td class="desc"></td>
-          <td class="total"><b>{{number_format($total_incoming)}}</b></td>
+          <td class="total">Incoming: <b>{{number_format($total_incoming)}}</b></td>
           <td class="desc"></td>
-          <td class="total"><b>{{number_format($total_outgoing)}}</b></td>
+          <td class="total">Outgoing: <b>{{number_format($total_outgoing)}}</b></td>
           <td class="desc"></td>
-          <td class="total"><b>{{ number_format($total_incoming - $total_outgoing)}}</b></td>
+          <td class="total">Profit: <b>{{ number_format($total_incoming - $total_outgoing)}}</b></td>
         </tr>
       </tbody>
     </table>
