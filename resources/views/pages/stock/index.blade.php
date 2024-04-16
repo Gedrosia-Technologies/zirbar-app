@@ -26,8 +26,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Type</th>
-                        <th>Liters</th>
-                        <th>Liters Sold</th>
+                        {{-- <th>Liters</th>
+                        <th>Liters Sold</th> --}}
                         <th>Remaining Liters</th>
                         <th>Action</th>
                     </tr>
@@ -36,8 +36,8 @@
                     <tr>
                         <th>ID</th>
                         <th>Type</th>
-                        <th>Liters</th>
-                        <th>Liters Sold</th>
+                        {{-- <th>Liters</th>
+                        <th>Liters Sold</th> --}}
                         <th>Remaining Liters</th>
                         <th>Action</th>
                     </tr>
@@ -60,13 +60,21 @@
                                 $rliters += $row->liters;
                             }
                         }
+
+                        $RL = $liters- $rliters;
+
+                        $drums = floor($RL / 210);
+                        // Calculate the remaining liters
+                        $remainingLiters = $RL % 210;
                         ?>
-                        <td>{{$liters}}</td>
-                        <td>
-                            {{$rliters}}
+                        {{-- <td>
+                            {{number_format($liters,2)}} || 
                         </td>
                         <td>
-                            {{$liters - $rliters}}
+                            {{number_format($rliters,2)}} ||
+                        </td> --}}
+                        <td>
+                            Total Liters : {{number_format(($RL),2)}} || Drums : {{$drums}} liters : {{number_format($remainingLiters,2)}}
                         </td>
                         <td class="d-flex justify-content-around">
                             {{-- @if(auth()->user()->isadmin)

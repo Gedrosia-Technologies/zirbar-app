@@ -184,6 +184,7 @@ class SellController extends Controller
     {
         $purchase = Purchase::where('type', $unit_type)->where('status', 1)->first();
         $purchase_details = PurchaseDetails::where('purchaseid', $purchase->id)->get();
+        
         $liters_sold = 0.00;
         foreach ($purchase_details as $row) {
             $liters_sold += $row->liters;
@@ -211,16 +212,27 @@ class SellController extends Controller
             //   $purchase->liters_sold = $purchase->liters_sold + $purchase_Liters_left;
             $purchase->status = 2;
             $returntype = $liters - $purchase_Liters_left;
+            if($returntype == 0.0){
+                $returntype = 'ok';
+            }
         }
         $purchase->save();
+       // dd($returntype);
         return $returntype;
     }
 
     public static function SelectNewPurchase($unit_type)
     {
-        $purchase = Purchase::where('type', $unit_type)->where('status', 0)->orderby('id', 'asc')->first();
-        $purchase->status = 1;
-        $purchase->save();
+        $purchase = Purchase::where('type', $unit_type)
+        ->where('status', 0)
+        ->orderBy('id', 'asc')
+        ->first();
+
+        if ($purchase) {
+            // Purchase found, update its status
+            $purchase->status = 1;
+            $purchase->save();
+        }
     }
 
     /**

@@ -172,10 +172,12 @@
                     <div class="form-group col-6">
                         <label for="rate">Tomin Rate:</label>
                         <input id="rate" class="form-control" type="number" name="rate"  required>
+                       
                     </div>
                     <div class="form-group col-6">
                         <label for="price">Price per drum(Tomin):</label>
-                        <input id="price" class="form-control" type="number" name="price" required>
+                        <input id="price" class="form-control amount-field" type="number" name="price" required>
+                        <small class="form-text text-primary text-center" ></small>
                         
                     </div>
                     <div class="form-group col-12">

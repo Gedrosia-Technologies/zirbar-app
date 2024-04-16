@@ -85,6 +85,7 @@
                         <th>Liters</th>
                         <th>Date</th>
                         <th>Status</th>
+                        <th>Amount</th>
                         <th>Action</th>
                     </tr>
                 </thead>
@@ -97,6 +98,7 @@
                         <th>Liters</th>
                         <th>Date</th>
                         <th>Status</th>
+                        <th>Amount</th>
                         <th>Action</th>
                     </tr>
                 </tfoot>
@@ -109,10 +111,18 @@
                         <td>{{$data->fuel}}</td>
                         <td>
                             <?php $party = \App\Models\Party::find($sellDetails->partyid);?>
-                            Party {{$party->name}}
+                            Party  <a href="/Partykanta/{{$sellDetails->partyid}}">{{$party->name}}</a>
                         </td>
-                        <td>{{$data->rate}}</td>
-                        <td>{{$data->liters}}</td>
+                        <td>Liter Rate :{{$data->rate}}  || DRUM Rate : {{number_format(round(($data->rate *210)),2) }}</td>
+                        <td>
+                            @php
+                            $drums = floor($data->liters / 210);
+                             // Calculate the remaining liters
+                             $remainingLiters = $data->liters % 210;
+                            @endphp
+                            Total in Liters : {{$data->liters}} || Drums : {{$drums}} Liters : {{$remainingLiters}}
+                        
+                        </td>
                         <td>{{$data->date}}</td>
                         <td>
                             @if($data->isclosed)
@@ -121,9 +131,12 @@
                             <span class="badge badge-success">Open</span>
                             @endif
                         </td>
+                        <td>
+                            {{number_format(round($data->liters * $data->rate),2)}}
+                        </td>
 
                         <td class="d-flex justify-content-around">
-                            <a href="SellDetail/{{$data->id}}" class="btn btn-info">Details</a>
+                            
                             @if(!$data->isclosed)
                             @if(auth()->user()->isadmin)
                             <button class="btn btn-danger" data-toggle="modal" data-target="#deleteModal"
