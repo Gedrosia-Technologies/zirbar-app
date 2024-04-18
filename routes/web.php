@@ -61,6 +61,7 @@ Route::middleware(['auth:sanctum', 'verified'])->post('/Sell/New', [SellControll
 Route::middleware(['auth:sanctum', 'verified'])->post('/Sell/delete', [SellController::class, 'destroy'])->name('delete_sell');
 Route::middleware(['auth:sanctum', 'verified'])->post('/Sell/update', [SellController::class, 'update'])->name('update_sell');
 Route::middleware(['auth:sanctum', 'verified'])->post('/Sell/close', [SellController::class, 'close'])->name('close_sell');
+Route::middleware(['auth:sanctum', 'verified'])->post('/Sell/print', [SellController::class, 'print'])->name('sell-print');
 
 //SellDetail routes
 Route::middleware(['auth:sanctum', 'verified'])->get('/SellDetail/{id}', [SellDetailController::class, 'index']);

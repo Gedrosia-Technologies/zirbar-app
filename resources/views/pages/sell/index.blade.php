@@ -44,9 +44,28 @@
     <div class="col-sm">
         <h1><i class='fas fa-gas-pump'></i>Sell Page</h1>
     </div>
-    <div class="col-sm"></div>
+    <div class="col-sm">
+    
+    </div>
 </div>
 <div class="row">
+    <form class="form form-inline" target="_blank" action="{{route('sell-print')}}" method="post">
+        @csrf
+        From date: &nbsp;<input type="date" name="from_date" value="{{date('Y-m-d')}}" required class="form-control">
+        &nbsp;
+        To date: &nbsp;<input type="date" name="to_date" value="{{date('Y-m-d')}}" required class="form-control">
+        &nbsp;
+    
+        <select name="fueltype" required class="form-control">
+            <option value="" selected disabled>---------Please Select Type---------</option>
+            <option value="Petrol">Petrol</option>
+            <option value="Diesel">Diesel</option>
+            <option value="All">All</option>
+        </select>
+        &nbsp;
+        <button class="btn btn-danger" type="submit">Print</button>
+    </form>
+    <hr>
     <!-- Button trigger modal -->
     <?php
     $All_Closed = true;

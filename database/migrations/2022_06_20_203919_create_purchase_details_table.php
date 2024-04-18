@@ -20,6 +20,8 @@ class CreatePurchaseDetailsTable extends Migration
             $table->double('liters', 12, 2);
             $table->boolean('closedafter')->default(false);
             $table->date('date');
+            $table->double('rate',12,2);
+            $table->double('profit',12,2);
             $table->timestamps();
             $table->softDeletes();
 

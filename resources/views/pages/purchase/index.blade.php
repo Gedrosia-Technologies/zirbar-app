@@ -79,7 +79,7 @@
                             {{ number_format(($data->liters/210 - floor($data->liters/210))*210,2) }} Liters</td>
                         <td>
                             <?php 
-                            $purchase_details = \App\Models\purchaseDetails::where('purchaseid',$data->id)->get();
+                            $purchase_details = \App\Models\PurchaseDetails::where('purchaseid',$data->id)->get();
                             $liters = 0.00;
                           
                             foreach ($purchase_details as $row ) {
@@ -159,6 +159,15 @@
                             <option value="Petrol">Petrol</option>
                         </select>
                     </div>
+
+                    <div class="form-group col-6">
+                        <label for="type">Currency</label>
+                        <select name="currency" id="currency" class="form-control" required="required">
+                            <option value="TOMAN">TOMAN</option>
+                            <option value="PKR">PKR</option>
+                        </select>
+                    </div>
+
                     <div class="form-group col-6">
                         <label for="qtydrum">Quantity-Drum</label>
                         <input id="qtydrum" name="qtydrum" class="form-control" value="0" min="0" type="number"
@@ -169,17 +178,25 @@
                         <input id="qtyliter" name="qtyliter" class="form-control" value="0" min="0" max="209"
                             type="number" required>
                     </div>
-                    <div class="form-group col-6">
-                        <label for="rate">Tomin Rate:</label>
+                    <div id="ratecon" class="form-group col-6">
+                        <label for="rate">Toman Rate:</label>
                         <input id="rate" class="form-control" type="number" name="rate"  required>
                        
                     </div>
-                    <div class="form-group col-6">
-                        <label for="price">Price per drum(Tomin):</label>
+                    <div id="pricecon" class="form-group col-6">
+                        <label for="price">Price per drum(Toman):</label>
                         <input id="price" class="form-control amount-field" type="number" name="price" required>
                         <small class="form-text text-primary text-center" ></small>
                         
                     </div>
+
+                    <div id="pricepkrcon" style="display: none" class="form-group col-6">
+                        <label for="pricepkr">Price per drum(PKR):</label>
+                        <input id="pricepkr" class="form-control amount-field" type="number" name="pricepkr">
+                        <small class="form-text text-primary text-center" ></small>
+                        
+                    </div>
+
                     <div class="form-group col-12">
                         <small class="form-text text-primary text-center" id="pricecal">Total Amount: 0 Total Quantity:
                             0</small>
@@ -227,14 +244,18 @@
 
 <script>
     const drum = $('#qtydrum');
+    const currencyselector = $('#currency');
     const liter = $('#qtyliter');
     const price = $('#price');
+    const pricepkr = $('#pricepkr');
     const tomin_rate = $('#rate');
 
     price.on('input', calculate)
+    pricepkr.on('input', calculate)
     drum.on('input', calculate)
     liter.on('input', calculate)
     tomin_rate.on('input', calculate);
+    currencyselector.on('change', changelayout);
 
     function calculate(){
         let totalqty = 0;
@@ -251,10 +272,17 @@
         }
         if(price.val()>0){
             priceliter = price.val()/210;
-        } 
-        let amount = numberWithCommas(Math.round(totalqty * priceliter));
-        let amount2 = numberWithCommas(Math.round(totalqty * (priceliter/tomin_rate.val()) ));
-        $('#pricecal').html(`Total Amount (tomin) : ${amount} || Total Amount (PKR) : ${amount2} || Total Liters: ${numberWithCommas(totalqty)}`)
+        }
+        if(currencyselector.val() == 'TOMAN'){
+
+            let amount = numberWithCommas(Math.round(totalqty * priceliter));
+            let amount2 = numberWithCommas(Math.round(totalqty * (priceliter/tomin_rate.val()) ));
+            $('#pricecal').html(`Total Amount (tomin) : ${amount} || Total Amount (PKR) : ${amount2} || Total Liters: ${numberWithCommas(totalqty)}`)
+        }else{
+            priceliter = pricepkr.val()/210;
+            let amount = numberWithCommas(Math.round(totalqty * priceliter));
+            $('#pricecal').html(`Total Amount (PKR) : ${amount} || Total Liters: ${numberWithCommas(totalqty)}`)
+        }
     }
 
     let party = $('#party');
@@ -268,6 +296,27 @@
             status.show();
         }
     })
+
+    function changelayout() {
+           let value =  $('#currency').val();
+           if(value == 'PKR'){
+            price.removeAttr('required');
+            tomin_rate.removeAttr('required');
+            pricepkr.attr('required', 'required');
+            $('#ratecon').hide();
+            $('#pricecon').hide();
+            $('#pricepkrcon').show();
+
+           }
+           else{
+            price.attr('required', 'required');
+            tomin_rate.attr('required', 'required');
+            pricepkr.removeAttr('required');
+            $('#ratecon').show();
+            $('#pricecon').show();
+            $('#pricepkrcon').hide();
+           }
+    }
 </script>
 
 

@@ -61,10 +61,18 @@ class PurchaseController extends Controller
         $purchase->type = $request->type;
 
         $liters = $request->qtydrum * 210 + $request->qtyliter;
-        $rate = ($request->price/$request->rate) / 210;
+        $rate = 0;
+        if($request->currency == 'PKR'){
+            $rate = $request->pricepkr / 210;
+            $purchase->drum_rate = $request->pricepkr;
+        }else{
+            
+            $rate = ($request->price/$request->rate) / 210;
+            $purchase->drum_rate = $request->price / $request->rate;
+        }
 
         $purchase->liters = $liters;
-        $purchase->drum_rate = $request->price / $request->rate;
+    
         $purchase->liter_rate = $rate;
         $purchase->amount = round($rate * $liters);
         $purchase->date = $request->date;

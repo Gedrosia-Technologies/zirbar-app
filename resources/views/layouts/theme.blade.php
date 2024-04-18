@@ -363,7 +363,7 @@
             <footer class="sticky-footer bg-white">
                 <div class="container my-auto">
                     <div class="copyright text-center my-auto">
-                        <span>Copyright &copy; Majid Kalmati Filling Station 2022 </span>
+                        <span>Copyright &copy; Zirbar Petroleum  2024 </span>
                         <span>Developed By &#174;</span>
                         <a href="https://gedrosia.tech/" target="_blank" rel="noopener noreferrer">Gedrosia Technologies
                             SMC Pvt. Ltd.</a>

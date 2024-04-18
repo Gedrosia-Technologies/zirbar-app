@@ -11,7 +11,10 @@ use App\Models\SellDetail;
 use App\Models\Stock;
 use App\Models\Stock_detail;
 use App\Models\Unit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Redirect;
+use PDF;
 
 class SellController extends Controller
 {
@@ -113,14 +116,15 @@ class SellController extends Controller
         //updateing purchase
 
         ///////////////////////////////
+        $sellRateLiter = $request->rate/210;
         $rV = 0;
         $first = true;
         do {
             if ($first) {
-                $rV = static::checkUpdate($request->fuel, $request->liters, $sell_id);
+                $rV = static::checkUpdate($request->fuel, $request->liters, $sell_id,$sellRateLiter);
                 $first = false;
             } else {
-                $rV = static::checkUpdate($request->fuel, $rV, $sell_id);
+                $rV = static::checkUpdate($request->fuel, $rV, $sell_id,$sellRateLiter);
             }
             if ($rV != 'ok') {
                 static::SelectNewPurchase($request->fuel);
@@ -180,7 +184,7 @@ class SellController extends Controller
         }
     }
 
-    public static function checkUpdate($unit_type, $liters, $sell_id)
+    public static function checkUpdate($unit_type, $liters, $sell_id,$sellrate)
     {
         $purchase = Purchase::where('type', $unit_type)->where('status', 1)->first();
         $purchase_details = PurchaseDetails::where('purchaseid', $purchase->id)->get();
@@ -197,6 +201,8 @@ class SellController extends Controller
             $table->purchaseid = $purchase->id;
             $table->saleid = $sell_id;
             $table->liters = $liters;
+            $table->rate = $sellrate;
+            $table->profit = ($sellrate - $purchase->liter_rate) * $liters;
             $table->date = date('Y-m-d');
             $table->save();
             // $purchase->liters_sold = $purchase->liters_sold + $liters;
@@ -207,6 +213,8 @@ class SellController extends Controller
             $table->saleid = $sell_id;
             $table->liters = $purchase_Liters_left;
             $table->date = date('Y-m-d');
+            $table->rate = $sellrate;
+            $table->profit = ($sellrate - $purchase->liter_rate) * $liters;
             $table->closedafter = true;
             $table->save();
             //   $purchase->liters_sold = $purchase->liters_sold + $purchase_Liters_left;
@@ -339,6 +347,37 @@ class SellController extends Controller
         $sellRow->delete();
 
         return back()->with('danger', 'Sell List Removed');
+
+    }
+
+    function print(Request $request) {
+        $fromDate = $request->input('from_date');
+        $toDate = $request->input('to_date');
+        if($request->fueltype == 'All'){
+            $data = Sell::whereBetween('sells.date', [$fromDate, $toDate])
+            ->orderBy('sells.date')
+            ->join('purchase_details', 'sells.id', '=', 'purchase_details.saleid')
+            ->select('sells.*', 'purchase_details.profit')
+            ->get();
+
+        }else{
+
+            $data = Sell::where('sells.fuel', $request->fueltype)
+            ->whereBetween('sells.date', [$fromDate, $toDate])
+            ->orderBy('sells.date')
+            ->join('purchase_details', 'sells.id', '=', 'purchase_details.saleid')
+            ->select('sells.*', 'purchase_details.profit')
+            ->get();
+
+
+        }
+        // $fishName = $fish->type;
+        $date = Carbon::now()->format('d/m/Y');
+        $pdf = PDF::loadView('pages.sell.print', compact('data', 'date', 'fromDate', 'toDate'));
+
+        $pdf->setPaper('A4', 'portrait');
+// $dompdf->set_base_path("/www/public/css/");
+        return $pdf->stream('Sell_Print ' . $fromDate . ' to ' . $toDate . '.pdf');
 
     }
 }
