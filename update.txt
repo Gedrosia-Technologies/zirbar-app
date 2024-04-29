@@ -1,0 +1,6 @@
+modified:   app/Http/Controllers/PartykantaController.php
+    1-Added code for not adding debit records to roznamcha
+    2-Fixed the bug of roznamcha records not being deleted connected to party kanta transactions.
+modified:   database/migrations/2021_08_21_195152_create_partykantas_table.php
+    1-Added a new column to the table called rozid with default set to 0
+

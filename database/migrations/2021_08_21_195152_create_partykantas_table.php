@@ -17,6 +17,7 @@ class CreatePartykantasTable extends Migration
             $table->id();
             $table->integer('partyid');
             $table->integer('type');
+            $table->integer('rozid')->default(0);
             $table->integer('amount');
             $table->string('note');
             $table->date('date');

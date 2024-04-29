@@ -48,7 +48,8 @@ class PartykantaController extends Controller
             $partykanta->type = $request->type;
             $partykanta->date = $request->date;
             $partykanta->amount = $request->amount;
-            $partykanta->save();
+            $rozid = 0;
+    if($request->type == 1) {
 
         if ($party->type == 'Client') {
             $rz = new Roznamcha();
@@ -57,6 +58,7 @@ class PartykantaController extends Controller
             $rz->type = 1;
             $rz->date = $request->date;
             $rz->save();
+            $rozid = $rz->id;
         }else{
             $rz = new Roznamcha();
             $rz->title = "Amount Paid Party Kanta ID : ".$request->partyid;
@@ -64,8 +66,11 @@ class PartykantaController extends Controller
             $rz->type = 2;
             $rz->date = $request->date;
             $rz->save();
+            $rozid = $rz->id;
         }
-
+    }
+        $partykanta->rozid = $rozid;
+        $partykanta->save();
         return Redirect::back()->with('success', 'Record added ');
     }
 
@@ -159,7 +164,11 @@ class PartykantaController extends Controller
     {
         //
         $data = Partykanta::find($request->id);
+        $roznamcha = Roznamcha::find($data->rozid);
         $data->delete();
+        if($data->type == 1) {
+            $roznamcha->delete();
+        }
         return Redirect::back()->with('danger', 'Record Delete');
     }
     public function displayReport(Request $request)
