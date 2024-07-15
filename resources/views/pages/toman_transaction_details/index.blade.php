@@ -15,14 +15,29 @@
     </div>
 </div>
 <div class="row">
-    <div class="col-3">
+    <div class="col-6">
         <h6>PKR Amount: {{number_format($tomanTransaction->amount)}} </h6>
         <h6>Toman Amount: {{number_format($tomanTransaction->toman)}} </h6>
         <h6>Rate: {{number_format($tomanTransaction->rate)}} </h6>
         <h6>Party: {{(is_object($party)) ? $party->name : "Unknown"}} </h6>
     </div>
-
     <div class="col-6">
+        <h6>Remaining Funds: {{number_format($remainingFunds)}} </h6>
+        @if($remainingFunds == 0 && $tomanTransaction->isopen == 1)
+        <button class="btn btn-warning submit" data-toggle="modal" data-target="#closeTransactions" >Make Close</button>
+        @endif
+        @if($tomanTransaction->isopen == 0)
+            <form class="form form-inline" target="_blank" action="{{route('toman_transactions_details_print')}}" method="post">
+                @csrf
+                <input type="hidden" name="transactionid" value="{{$tomanTransaction->id}}">
+                <button class="btn btn-danger" type="submit">Print</button>
+            </form>
+        @endif
+    </div>
+
+<div class="row">
+    
+    <div class="col-12">
         @if($remainingFunds != 0)
         <form  class="submit d-flex align-items-center" action="{{route('add_tomantransactiondetail')}}" method="POST">
             @csrf
@@ -61,19 +76,7 @@
             </form>
         @endif
     </div>
-    <div class="col-3">
-        <h6>Remaining Funds: {{number_format($remainingFunds)}} </h6>
-        @if($remainingFunds == 0 && $tomanTransaction->isopen == 1)
-        <button class="btn btn-warning submit" data-toggle="modal" data-target="#closeTransactions" >Make Close</button>
-        @endif
-        @if($tomanTransaction->isopen == 0)
-            <form class="form form-inline" target="_blank" action="{{route('toman_transactions_details_print')}}" method="post">
-                @csrf
-                <input type="hidden" name="transactionid" value="{{$tomanTransaction->id}}">
-                <button class="btn btn-danger" type="submit">Print</button>
-            </form>
-        @endif
-    </div>
+</div>
 
     {{-- <div class="col-2">
         @if(count($sellDetails) > 0)

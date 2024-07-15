@@ -42,7 +42,7 @@ class SellController extends Controller
         $table = new SellDetail();
         $table->rate = $request->rate;
         $table->liters = $request->liters;
-        $table->date = date('Y-m-d');
+        $table->date = $request->date;
         $table->amount = $request->rate * $request->liters;
         $table->type = 3;
         $table->sellid = $request->id;
@@ -90,7 +90,7 @@ class SellController extends Controller
                 $sell->fuel = $request->fuel;
                 $sell->rate = $request->rate/210;
                 $sell->liters = $request->liters;
-                $sell->date = date('Y-m-d');
+                $sell->date = $request->date;
                 $sell->save();
                 $sell_id = $sell->id;
 
@@ -105,7 +105,7 @@ class SellController extends Controller
         $stockDetail->sourceid = $sell_id;
         $stockDetail->status = 2;
         $stockDetail->liters = $request->liters;
-        $stockDetail->date = date('Y-m-d');
+        $stockDetail->date = $request->date;;
         $stockDetail->save();
         // $stock->liters = $stock->liters - $liters;
         // $stock->sold = $stock->sold + $liters;
@@ -121,10 +121,10 @@ class SellController extends Controller
         $first = true;
         do {
             if ($first) {
-                $rV = static::checkUpdate($request->fuel, $request->liters, $sell_id,$sellRateLiter);
+                $rV = static::checkUpdate($request->fuel, $request->liters, $sell_id,$sellRateLiter, $request->date);
                 $first = false;
             } else {
-                $rV = static::checkUpdate($request->fuel, $rV, $sell_id,$sellRateLiter);
+                $rV = static::checkUpdate($request->fuel, $rV, $sell_id,$sellRateLiter, $request->date);
             }
             if ($rV != 'ok') {
                 static::SelectNewPurchase($request->fuel);
@@ -184,7 +184,7 @@ class SellController extends Controller
         }
     }
 
-    public static function checkUpdate($unit_type, $liters, $sell_id,$sellrate)
+    public static function checkUpdate($unit_type, $liters, $sell_id,$sellrate, $date)
     {
         $purchase = Purchase::where('type', $unit_type)->where('status', 1)->first();
         $purchase_details = PurchaseDetails::where('purchaseid', $purchase->id)->get();
@@ -203,7 +203,7 @@ class SellController extends Controller
             $table->liters = $liters;
             $table->rate = $sellrate;
             $table->profit = ($sellrate - $purchase->liter_rate) * $liters;
-            $table->date = date('Y-m-d');
+            $table->date = $date;
             $table->save();
             // $purchase->liters_sold = $purchase->liters_sold + $liters;
 
@@ -212,7 +212,7 @@ class SellController extends Controller
             $table->purchaseid = $purchase->id;
             $table->saleid = $sell_id;
             $table->liters = $purchase_Liters_left;
-            $table->date = date('Y-m-d');
+            $table->date = $date;
             $table->rate = $sellrate;
             $table->profit = ($sellrate - $purchase->liter_rate) * $liters;
             $table->closedafter = true;

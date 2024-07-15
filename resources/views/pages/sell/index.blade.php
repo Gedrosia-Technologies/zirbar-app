@@ -178,6 +178,7 @@
                                     ?>
                             <form action="{{route('close_sell')}}" class="submit" method="post">
                                 @csrf
+                                <input type="hidden" name="date" value="{{$data->date}}">
                                 <input type="hidden" name="id" value="{{$data->id}}">
                                 <input type="hidden" name="rate" value="{{$data->rate}}">
                                 <input type="hidden" name="liters" value="{{$data->liters - $liters}}">
